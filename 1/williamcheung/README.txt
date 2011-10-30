@@ -1,0 +1,1 @@
+I'm a Globals newbie. Looking forward to seeing if using Globals is as easy as it sounds.

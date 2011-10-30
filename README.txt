@@ -1,6 +1,7 @@
 GlobalsDB Challenge Code Submission:
  
 1.    You need a GitHub account
+	a. Please post a request including your GitHub ID to be added to the Challenge repo as a collaborator.
 2.    The URL for the Challenge is: git@github.com:GlobalsDB/Challenges.git
 	a.    Note that the above uses ssh.  SSH is the prescribed way to interact 		
 		in a read/write way with the Challenges URL.  Your github account 			

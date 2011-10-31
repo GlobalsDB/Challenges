@@ -24,7 +24,6 @@ class FeedCache {
             list.append(prop.value)
         }
         global.set(list, entry.id)
-        searchFeedEntries('', '')
     }
 
     List<FeedEntry> searchFeedEntries(FeedEntry prototype) {

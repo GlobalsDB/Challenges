@@ -9,11 +9,11 @@ GlobalsDB Challenge Code Submission:
 3.    Setup the work directory (Command line instructions):
 	a.	Clone the Challenge repo --> 
 		git clone git@github.com:GlobalsDB/Challenges.git
-	b.    Change to working directory --> cd Challenges/1
+	b.    Change to working directory --> cd Challenges/<Challenge Number (1, 2, 3 ? etc.)>
 	c.    Create a new folder with named with your github id --> mkdir <YOUR_GITHUB_ID>
 	d.    Add files to this working directory
 4.    Submitted completed Challenge
-	a.    Change to your working directory --> cd Challenges/1/<YOUR_GITHUB_ID>
+	a.    Change to your working directory --> cd Challenges/<Challenge Number (1, 2, 3 ? etc.)>/<YOUR_GITHUB_ID>
 	b.    Snapshot the files for the challenge--> git add .
 	c.    Record the snapshot --> git commit -m "My Globals Challenge submission"  
 		(-m "comment for the submission" is optional)

@@ -8,12 +8,22 @@ public class Log {
         INFO,
         WARN,
         ERROR,
-        FATAL
+        FATAL,
+        UNKNOWN
     }
 
+    private Service service;
     private Severity severity;
     private Date date;
     private String message;
+
+    public Service getService() {
+        return service;
+    }
+
+    public void setService(Service service) {
+        this.service = service;
+    }
 
     public Severity getSeverity() {
         return severity;

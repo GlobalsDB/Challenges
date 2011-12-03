@@ -1,5 +1,6 @@
 package com.uosipa.globalsdb.dao;
 
+import com.uosipa.globalsdb.database.Database;
 import com.uosipa.globalsdb.model.Log;
 import com.uosipa.globalsdb.model.Service;
 import com.uosipa.globalsdb.model.User;
@@ -16,7 +17,6 @@ public class LogDao {
     }
 
     private LogDao() {
-        throw new AssertionError();
     }
 
     public List<Log> findLogs(User user, Service service, Log.Severity... severities) {
@@ -24,7 +24,11 @@ public class LogDao {
         //TODO implement
     }
 
-    public void addLogs(Collection<Log> logs) {
+    public void addLogs(User user, Collection<Log> logs) {
         //TODO implement
+    }
+
+    public void addLog(User user, Log log) {
+        //Database.addToNode(log.getMessage(), user.getLogin(), log.getService(), log.getSeverity());
     }
 }

@@ -4,6 +4,8 @@ import com.intersys.globals.Connection;
 import com.intersys.globals.ConnectionContext;
 import com.intersys.globals.NodeReference;
 import com.intersys.globals.ProductInfo;
+import com.uosipa.globalsdb.model.Log;
+import com.uosipa.globalsdb.model.Service;
 
 import java.io.IOException;
 import java.util.Properties;
@@ -51,5 +53,8 @@ public class Database {
 
     public static boolean isNodeExist(String key) {
         return connection.createNodeReference(key).exists();
+    }
+
+    public static void addToNode(String value, String... subscripts) {
     }
 }

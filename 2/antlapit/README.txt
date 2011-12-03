@@ -1,1 +1,1 @@
-globals/java application
+globalsdb/java application

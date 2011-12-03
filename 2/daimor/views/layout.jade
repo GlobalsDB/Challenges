@@ -1,0 +1,17 @@
+!!! 5
+html
+	head
+		title= title
+		link(rel='stylesheet', href='/css/style.css')
+	body
+		.main
+			.mainbar
+				h1(class='title') Log viewer
+				ul.menu
+					a(href='/logs')
+						li.menuitem	Show logs
+					a(href='/import')
+						li.menuitem Import log
+		.mainpane
+			body!= body
+						

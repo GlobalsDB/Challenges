@@ -1,0 +1,33 @@
+.login-form {
+    padding-top: 4em;
+}
+
+.login-form table {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.login-form .caption {
+    font-size: 120%;
+    text-align: center;
+    padding: 0.25em;
+    margin-bottom: 1em;
+}
+
+.login-form .field-names {
+    text-align: right;
+    padding: 0.5em;
+}
+
+.login-form .textbox {
+    width: 200px;
+}
+
+.login-form .button {
+    text-align: center;
+}
+
+.login-form .button input {
+    margin: 1em 0 0;
+    width: 80px;
+}

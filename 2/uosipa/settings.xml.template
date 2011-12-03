@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" 
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+    <profiles>
+        <profile>
+            <id>globalsdb-challenge-local</id>
+
+            <properties>
+                <development.home>C:/Work/globalsdb/Challenges/2/uosipa</development.home>
+                <nocturne.debug>true</nocturne.debug>
+                <logging.path>${development.home}/web.log</logging.path>
+            </properties>
+        </profile>
+    </profiles>
+</settings>

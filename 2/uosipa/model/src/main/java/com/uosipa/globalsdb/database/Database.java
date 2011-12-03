@@ -48,4 +48,8 @@ public class Database {
     public static String getVersion() {
         return GLOBALS_VERSION;
     }
+
+    public static boolean isNodeExist(String key) {
+        return connection.createNodeReference(key).exists();
+    }
 }

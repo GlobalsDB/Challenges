@@ -1,6 +1,6 @@
 package com.uosipa.globalsdb.web;
 
-import com.uosipa.globalsdb.web.page.general.PersonalPage;
+import com.uosipa.globalsdb.web.page.logstable.LogsPage;
 import com.uosipa.globalsdb.web.page.login.LoginPage;
 import com.uosipa.globalsdb.web.page.login.LogoutPage;
 import com.uosipa.globalsdb.web.page.login.RegistrationPage;
@@ -15,6 +15,6 @@ public class ApplicationRequestRouter extends LinkedRequestRouter {
         Links.add(LoginPage.class);
         Links.add(LogoutPage.class);
         Links.add(RegistrationPage.class);
-        Links.add(PersonalPage.class);
+        Links.add(LogsPage.class);
     }
 }

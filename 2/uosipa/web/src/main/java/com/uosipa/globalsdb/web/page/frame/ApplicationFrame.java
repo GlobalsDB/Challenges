@@ -1,4 +1,4 @@
-package com.uosipa.globalsdb.web.page;
+package com.uosipa.globalsdb.web.page.frame;
 
 import com.uosipa.globalsdb.model.User;
 import org.nocturne.main.Frame;
@@ -16,6 +16,7 @@ public abstract class ApplicationFrame extends Frame {
     public static class Link {
         private final String address;
         private final String text;
+        private final String title;
         private final boolean selected;
 
         public Link(String address, String text) {
@@ -23,8 +24,13 @@ public abstract class ApplicationFrame extends Frame {
         }
 
         public Link(String address, String text, boolean selected) {
+            this(address, text, "", selected);
+        }
+
+        public Link(String address, String text, String title, boolean selected) {
             this.address = address;
             this.text = text;
+            this.title = title;
             this.selected = selected;
         }
 
@@ -34,6 +40,10 @@ public abstract class ApplicationFrame extends Frame {
 
         public String getText() {
             return text;
+        }
+
+        public String getTitle() {
+            return title;
         }
 
         public boolean isSelected() {

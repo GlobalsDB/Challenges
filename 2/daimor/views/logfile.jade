@@ -1,0 +1,11 @@
+h2 Log file: #{log.fileLog} (#{log.canRefresh})
+a(href='/logs') back
+a(href='/logs/#{log.id}') refresh 
+if canRefresh==='true' 
+	a(href='/logs/refresh/#{log.id}') refresh from file
+ul.logs
+	each item, i in logData
+		li #{item}
+if max
+	a(href='/logs/#{log.id}/#{max}') show more
+	a(href='/logs/#{log.id}/0') show all	

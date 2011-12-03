@@ -17,5 +17,9 @@ public abstract class UserPage extends ApplicationPage {
         if (!checkAccess()) {
             abortWithRedirect(LoginPage.class);
         }
+
+        addCss("css/menu.css");
+
+        put("user", getUser());
     }
 }

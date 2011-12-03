@@ -1,10 +1,10 @@
 package com.uosipa.globalsdb.web.page.login;
 
-import com.uosipa.globalsdb.database.Database;
+import com.uosipa.globalsdb.dao.UserDao;
+import com.uosipa.globalsdb.model.User;
 import com.uosipa.globalsdb.web.page.ApplicationPage;
-import com.uosipa.globalsdb.web.page.general.PersonalPage;
+import com.uosipa.globalsdb.web.page.logstable.LogsPage;
 import com.uosipa.globalsdb.web.validation.StringLengthValidator;
-import org.apache.commons.codec.digest.DigestUtils;
 import org.nocturne.annotation.Action;
 import org.nocturne.annotation.Parameter;
 import org.nocturne.annotation.Validate;
@@ -28,7 +28,7 @@ public class RegistrationPage extends ApplicationPage {
         super.initializeAction();
 
         if (getUser() != null) {
-            abortWithRedirect(PersonalPage.class);
+            abortWithRedirect(LogsPage.class);
         }
 
         addCss("css/login-form.css");
@@ -63,8 +63,8 @@ public class RegistrationPage extends ApplicationPage {
         addValidator("login", new Validator() {
             @Override
             public void run(String value) throws ValidationException {
-                if (Database.read(login) != null) {
-                    throw new ValidationException($("User already exists"));
+                if (UserDao.getInstance().isUserExist(login)) {
+                    throw new ValidationException($("User already exist"));
                 }
             }
         });
@@ -74,7 +74,7 @@ public class RegistrationPage extends ApplicationPage {
 
     @Action("register")
     public void register() {
-        Database.write(login, DigestUtils.shaHex(password));
+        UserDao.getInstance().addUser(new User(login, password));
 
         abortWithRedirect(LoginPage.class);
     }

@@ -1,0 +1,65 @@
+.menu-sections ul {
+    clear: both;
+    background: url(../image/menu/navbar_bg.png);
+    text-align: center;
+    width: 100%;
+}
+
+.menu-sections li {
+    float: left;
+    border-right: 1px solid #59d;
+    position: relative;
+}
+
+.menu-sections li a, .topTab {
+    display: block;
+    padding: 5px 15px 5px 15px;
+    color: #fff;
+    font-weight: bold;
+    position: relative;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.selected, .menu-sections li.selected a:hover, .menu-sections li.selected:hover {
+    background: url(../image/menu/navbar_bg2.png);
+    font-weight: bold;
+}
+
+.menu-sections li a:hover, .menu li:hover {
+    background: url(../image/menu/navbar_bg3.png);
+}
+
+.menu-items {
+    clear: left;
+    padding: 2px 2px 5px 15px;
+    background: #eaf3fd;
+    border-bottom: 1px solid #c6dff9;
+}
+
+.menu-items h2 {
+    margin: 6px 6px 6px 0;
+}
+
+.menu-items ul {
+    padding-top: 4px;
+}
+
+.menu-items li {
+    display: inline;
+    position: relative;
+    top: 3px;
+    white-space: nowrap;
+}
+
+.menu-items .unselected {
+    padding: 5px 15px 3px;
+}
+
+.menu-items .selected {
+    background: #fff;
+    border: 1px solid #c6dff9;
+    border-bottom: 0;
+    font-weight: bold;
+    padding: 5px 15px 3px;
+}

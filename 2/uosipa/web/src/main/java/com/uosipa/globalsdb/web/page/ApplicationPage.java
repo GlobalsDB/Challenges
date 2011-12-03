@@ -2,6 +2,7 @@ package com.uosipa.globalsdb.web.page;
 
 import com.uosipa.globalsdb.database.Database;
 import com.uosipa.globalsdb.model.User;
+import com.uosipa.globalsdb.web.page.frame.TopMenuFrame;
 import org.nocturne.main.Page;
 
 /**
@@ -20,6 +21,7 @@ public abstract class ApplicationPage extends Page {
 
         put("pageTitle", getPageTitle());
         put("globalsVersion", Database.getVersion());
+        put("home", getRequest().getContextPath());
     }
 
     protected final User getUser() {

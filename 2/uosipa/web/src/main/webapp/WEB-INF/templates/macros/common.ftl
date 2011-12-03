@@ -9,17 +9,17 @@
 
     <title>${pageTitle}</title>
 
-    <link href="image/favicon.ico" rel="icon" type="image/x-icon"/>
-    <link rel="stylesheet" href="css/reset.css" type="text/css"/>
-    <link rel="stylesheet" href="css/style.css" type="text/css"/>
-    <link rel="stylesheet" href="css/header.css" type="text/css"/>
-    <link rel="stylesheet" href="css/footer.css" type="text/css"/>
+    <link href="${home}/image/favicon.ico" rel="icon" type="image/x-icon"/>
+    <link rel="stylesheet" href="${home}/css/reset.css" type="text/css"/>
+    <link rel="stylesheet" href="${home}/css/style.css" type="text/css"/>
+    <link rel="stylesheet" href="${home}/css/header.css" type="text/css"/>
+    <link rel="stylesheet" href="${home}/css/footer.css" type="text/css"/>
     <#list css as file>
-        <link rel="stylesheet" href="${file}" type="text/css"/>
+        <link rel="stylesheet" href="${home}/${file}" type="text/css"/>
     </#list>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <#list js as file>
-        <script type="text/javascript" src="${file}"></script>
+        <script type="text/javascript" src="${home}/${file}"></script>
     </#list>
 </head>
 
@@ -29,10 +29,10 @@
     <@frame name="topMenuFrame"/>
     </div>
 
-<#--<#if user??>-->
-<#--<@frame name="menuFrame"/>-->
-<#--<@frame name="pluginMenuFrame"/>-->
-<#--</#if>-->
+    <#if user??>
+    <#--<@frame name="menuFrame"/>-->
+    <@frame name="sectionMenuFrame"/>
+    </#if>
 
     <div class="content">
         <#nested>

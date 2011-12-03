@@ -1,11 +1,11 @@
 package com.uosipa.globalsdb.web.page.login;
 
-import com.uosipa.globalsdb.database.Database;
+import com.uosipa.globalsdb.dao.UserDao;
+import com.uosipa.globalsdb.model.Service;
 import com.uosipa.globalsdb.model.User;
 import com.uosipa.globalsdb.web.page.ApplicationPage;
-import com.uosipa.globalsdb.web.page.general.PersonalPage;
+import com.uosipa.globalsdb.web.page.logstable.LogsPage;
 import com.uosipa.globalsdb.web.validation.StringLengthValidator;
-import org.apache.commons.codec.digest.DigestUtils;
 import org.nocturne.annotation.Action;
 import org.nocturne.annotation.Parameter;
 import org.nocturne.annotation.Validate;
@@ -28,7 +28,7 @@ public class LoginPage extends ApplicationPage {
         super.initializeAction();
 
         if (getUser() != null) {
-            abortWithRedirect(PersonalPage.class);
+            abortWithRedirect(LogsPage.class, "service", Service.TOMCAT);
         }
 
         addCss("css/login-form.css");
@@ -44,6 +44,8 @@ public class LoginPage extends ApplicationPage {
     @Parameter(stripMode = Parameter.StripMode.NONE)
     private String password;
 
+    private User databaseUser;
+
     @Validate("login")
     public boolean validateLogin() {
         addValidator("login", new StringLengthValidator(4, 50));
@@ -51,8 +53,8 @@ public class LoginPage extends ApplicationPage {
         addValidator("password", new Validator() {
             @Override
             public void run(String value) throws ValidationException {
-                String databasePassword = Database.read(login);
-                if (password == null || password.isEmpty() || !databasePassword.equals(DigestUtils.shaHex(password))) {
+                databaseUser = UserDao.getInstance().authenticate(login, password);
+                if (databaseUser == null) {
                     throw new ValidationException($("Invalid login or password"));
                 }
             }
@@ -63,11 +65,8 @@ public class LoginPage extends ApplicationPage {
 
     @Action("login")
     public void login() {
-        User user = new User();
-        user.setLogin(login);
+        putSession(AUTHORIZED_USER_SESSION_KEY, databaseUser);
 
-        putSession(AUTHORIZED_USER_SESSION_KEY, user);
-
-        abortWithRedirect(PersonalPage.class);
+        abortWithRedirect(LogsPage.class, "service", Service.TOMCAT);
     }
 }

@@ -1,4 +1,4 @@
-package com.uosipa.globalsdb.web.page;
+package com.uosipa.globalsdb.web.page.frame;
 
 import com.uosipa.globalsdb.web.page.login.LoginPage;
 import com.uosipa.globalsdb.web.page.login.LogoutPage;
@@ -25,6 +25,7 @@ public class TopMenuFrame extends ApplicationFrame {
         }
 
         put("links", links);
+        put("user", getUser());
     }
 
     private void setupLinksForAuthorizedUser() {

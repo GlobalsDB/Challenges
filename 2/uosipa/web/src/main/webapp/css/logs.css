@@ -1,0 +1,55 @@
+.logs .error {
+    background-color: red;
+}
+
+.logs .debug {
+    color: gray;
+}
+
+.logs .info {
+}
+
+.logs .warning {
+    background-color: #ff5;
+}
+
+.logs-filter {
+    padding: .5em 1em .5em .35em;
+    margin: 0;
+    text-align: left;
+    background: #e5ecf9;
+    vertical-align: bottom;
+}
+
+.logs-filter input {
+    font-size: 90%;
+    margin-left: 1.5em;
+    margin-right: 0.5em;
+}
+
+.logs-filter select {
+    font-size: 90%;
+    margin-left: 0.5em;
+}
+
+.logs-filter .textbox {
+    width: 55px;
+}
+
+.logs-filter .logs-paginate {
+    text-align: right;
+    padding: 0.3em 0;
+}
+
+.logs-filter .logs-paginate strong {
+    margin: 0 0.5em;
+}
+
+.logs-filter .disabled {
+    color: #666;
+    background-color: transparent
+}
+
+.logs .highlighted {
+    background: #eaf3fd;
+}

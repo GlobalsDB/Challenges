@@ -1,0 +1,12 @@
+h2 logs
+table
+	- for (var key in logs)
+		tr
+			td(width='200px') 
+				a(href='/logs/#{logs[key].id}')= logs[key].fileLog
+			if logs[key].canRefresh
+				td system file
+			else 
+				td uploaded file
+			td
+				a(href='/logs/remove/#{logs[key].id}') remove

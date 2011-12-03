@@ -1,0 +1,6 @@
+h2 import file
+div Select file to import
+form(action='/import/new',method='POST',enctype='multipart/form-data')
+	input#importFile(type='file',name='upload',multiple='multiple')
+	br
+	input#send(type='submit')

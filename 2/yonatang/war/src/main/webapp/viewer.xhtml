@@ -31,16 +31,22 @@
 	<h:form id="tabsForm">
 		<p:panel id="mainPanel">
 			<p:growl id="growl" showDetail="true" sticky="true" autoUpdate="true" />
-			<p:panel rendered="#{logTableTabsBean.tabs.size()==0}" style="text-align:center;">
-				<h:outputText value="Oh, my! It seems you are not viewing any logs yet." /><br/>
-				<br/>
+			<p:panel rendered="#{logTableTabsBean.tabs.size()==0}"
+				style="text-align:center;">
+				<h:outputText
+					value="Oh, my! It seems you are not viewing any logs yet." />
+				<br />
+				<br />
 				<h:outputText value="Care to pick a file?" />
-				<br/><br/>
-				<p:commandButton value="Pick me! Pick me!" onclick="localFileDialog.show();" />
+				<br />
+				<br />
+				<p:commandButton value="Pick me! Pick me!"
+					onclick="localFileDialog.show();" />
 			</p:panel>
 			<p:tabView id="tabs" var="logTable" value="#{logTableTabsBean.tabs}"
 				widgetVar="tabsWidget" rendered="#{logTableTabsBean.tabs.size()>0}">
-				<p:ajax event="tabClose" listener="#{logTableTabsBean.onTabClose}" update="tabsForm" />
+				<p:ajax event="tabClose" listener="#{logTableTabsBean.onTabClose}"
+					update="tabsForm" />
 
 				<p:tab title="#{logTable.logFile.name}" closable="true">
 					<p:remoteCommand name="refreshTable" update="logTable"></p:remoteCommand>
@@ -89,7 +95,8 @@
 
 						<h:outputLabel value="IP" for="ip" />
 						<p:spacer width="10" />
-						<p:inputText id="ip" value="#{logTable.dataModel.ipFilter}">
+						<p:inputText id="ip" value="#{logTable.dataModel.ipFilter}"
+							style="width:150px">
 							<p:ajax event="keyup"
 								oncomplete="logTableWidget.filter(); refreshTable();"
 								update="logTable" />
@@ -100,6 +107,8 @@
 							<f:setPropertyActionListener
 								target="#{logTable.dataModel.ipFilter}" value="#{null}" />
 						</p:commandButton>
+
+
 
 						<p:commandButton style="float:right"
 							image="ui-icon ui-icon-refresh"

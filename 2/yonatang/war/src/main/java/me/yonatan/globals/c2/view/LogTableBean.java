@@ -22,6 +22,7 @@ import org.primefaces.component.datatable.DataTable;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.data.PageEvent;
+import org.primefaces.model.chart.CartesianChartModel;
 
 @SuppressWarnings("serial")
 @Named
@@ -40,6 +41,9 @@ public class LogTableBean implements Serializable {
 	private LogRecord selectedRowRecord;
 
 	@Getter
+	private CartesianChartModel cartesianChartModel;
+
+	@Getter
 	private LogFile logFile;
 
 	@Getter
@@ -56,8 +60,7 @@ public class LogTableBean implements Serializable {
 	@Synchronized
 	public void pollForChanges() {
 		if (FileUtils.isFileNewer(new File(logFile.getFileName()), logFile.getLastUpdated().toDate())) {
-			System.out.println("AutoRefresh? " + autoRefresh);
-			System.out.println("File has changed. Reloading.");
+			log.infov("File {0} has changed. Reloading.", logFile);
 			FacesContext context = FacesContext.getCurrentInstance();
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Successful", "Hello "));
 			dbManager.reloadFile(logFile);
@@ -73,7 +76,6 @@ public class LogTableBean implements Serializable {
 	public void onPage(PageEvent event) {
 		DataTable dt = (DataTable) event.getSource();
 		autoRefresh = (event.getPage() == dt.getPageCount() - 1);
-		System.out.println(autoRefresh);
 	}
 
 	public void onSelect(SelectEvent event) {

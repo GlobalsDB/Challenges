@@ -40,9 +40,7 @@ public class LogTableDataModel extends LazyDataModel<LogRecord> {
 
 	@Override
 	public List<LogRecord> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, String> filters) {
-		System.out.println(filters);
 		Records records;
-		System.out.println("from date " + fromDateFilter + " to " + toDateFilter + " IP " + ipFilter);
 
 		if ((fromDateFilter != null || toDateFilter != null) && StringUtils.isNotBlank(ipFilter)) {
 			records = dbManager.getRecords(handler, first, pageSize, ipFilter, (fromDateFilter != null ? fromDateFilter.getTime() : 0),
@@ -56,7 +54,6 @@ public class LogTableDataModel extends LazyDataModel<LogRecord> {
 			records = dbManager.getRecords(handler, first, pageSize);
 		}
 		setRowCount(records.getTotalResults());
-		System.out.println("total results " + records.getTotalResults());
 		return records.getRecords();
 	}
 

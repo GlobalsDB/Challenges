@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Locale;
 
 import javax.servlet.ServletException;
 import javax.swing.JFrame;
@@ -31,21 +30,20 @@ public class Main {
 	 * @throws IOException
 	 */
 	public static void main(String[] args) throws IOException {
-		//TODO - splash screen
-		//TODO - proper cleanup on close
-		//TODO manual war input, when not found
-		//TODO random port hook
-		//TODO proper logging
-		
-		Tomcat tomcat = new Tomcat();
+		// TODO - splash screen
+		// TODO manual war input, when not found
+		// TODO proper logging
 
-		final int port=2000+(int)(Math.random()*(65500-2000));
-		
-		File tempWar = File.createTempFile("war", ".war");
+		final Tomcat tomcat = new Tomcat();
+
+		final int port = 2000 + (int) (Math.random() * (65500 - 2000));
+
+		final File tempWar = File.createTempFile("war", ".war");
+		System.out.println(ClassLoader.getSystemResource("war.war"));
 		InputStream warInputStream = ClassLoader.getSystemResourceAsStream("war.war");
 		IOUtils.copy(warInputStream, new FileOutputStream(tempWar));
 
-		File tempUsers = File.createTempFile("tomcat-users", ".xml");
+		final File tempUsers = File.createTempFile("tomcat-users", ".xml");
 		InputStream usersInputStream = ClassLoader.getSystemResourceAsStream("tomcat-users.xml");
 		IOUtils.copy(usersInputStream, new FileOutputStream(tempUsers));
 
@@ -65,8 +63,6 @@ public class Main {
 
 		Host host = tomcat.getHost();
 
-		// host.setDeployOnStartup(false);
-		// host.setAutoDeploy(false);
 		Server server = tomcat.getServer();
 		AprLifecycleListener listener = new AprLifecycleListener();
 		server.addLifecycleListener(listener);
@@ -82,34 +78,35 @@ public class Main {
 				public void run() {
 					JFrame frame = new JFrame("Logfile viewer");
 					frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-					frame.getContentPane().add(new Window("http://localhost:"+port+"/app/viewer.jsf"), BorderLayout.CENTER);
+					frame.getContentPane().add(new Window("http://localhost:" + port + "/app/viewer.jsf"), BorderLayout.CENTER);
 					frame.setSize(800, 600);
 					frame.setLocationByPlatform(true);
 					frame.setVisible(true);
 				}
 			});
 
+			Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+
+				@Override
+				public void run() {
+					System.out.println("Shutting down.");
+					try {
+						tomcat.stop();
+					} catch (LifecycleException e) {
+						e.printStackTrace();
+					}
+					FileUtils.deleteQuietly(tempWar);
+					FileUtils.deleteQuietly(tempUsers);
+				}
+			}));
 			NativeInterface.runEventPump();
 
-			System.out.println("Shutting down");
-			tomcat.stop();
-			FileUtils.deleteQuietly(tempWar);
-			FileUtils.deleteQuietly(tempUsers);
-			// server.await();
-
 		} catch (LifecycleException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ServletException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			// } catch (URISyntaxException e) {
-			// // TODO Auto-generated catch block
-			// e.printStackTrace();
 		}
 
-		// TODO Auto-generated method stub
-
 	}
-
 }

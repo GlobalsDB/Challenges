@@ -4,7 +4,8 @@ import com.uosipa.globalsdb.dao.UserDao;
 import com.uosipa.globalsdb.model.Service;
 import com.uosipa.globalsdb.model.User;
 import com.uosipa.globalsdb.web.page.ApplicationPage;
-import com.uosipa.globalsdb.web.page.logstable.LogsPage;
+import com.uosipa.globalsdb.web.page.logs.LogsPage;
+import com.uosipa.globalsdb.web.validation.LoginValidator;
 import com.uosipa.globalsdb.web.validation.StringLengthValidator;
 import org.nocturne.annotation.Action;
 import org.nocturne.annotation.Parameter;
@@ -48,19 +49,24 @@ public class LoginPage extends ApplicationPage {
 
     @Validate("login")
     public boolean validateLogin() {
-        addValidator("login", new StringLengthValidator(4, 50));
+        addValidator("login", new LoginValidator());
         addValidator("password", new StringLengthValidator(4, 50));
-        addValidator("password", new Validator() {
-            @Override
-            public void run(String value) throws ValidationException {
-                databaseUser = UserDao.getInstance().authenticate(login, password);
-                if (databaseUser == null) {
-                    throw new ValidationException($("Invalid login or password"));
-                }
-            }
-        });
 
-        return runValidation();
+        if (runValidation()) {
+            addValidator("password", new Validator() {
+                @Override
+                public void run(String value) throws ValidationException {
+                    databaseUser = UserDao.getInstance().authenticate(login, password);
+                    if (databaseUser == null) {
+                        throw new ValidationException($("Invalid login or password"));
+                    }
+                }
+            });
+
+            return runValidation();
+        } else {
+            return false;
+        }
     }
 
     @Action("login")

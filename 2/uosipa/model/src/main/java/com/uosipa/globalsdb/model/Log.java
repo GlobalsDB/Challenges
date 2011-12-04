@@ -2,7 +2,12 @@ package com.uosipa.globalsdb.model;
 
 import java.util.Date;
 
-public class Log {
+public class Log implements Comparable<Log> {
+    @Override
+    public int compareTo(Log o) {
+        return o.getDate().compareTo(date);
+    }
+
     public enum Severity {
         DEBUG,
         INFO,

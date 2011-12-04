@@ -15,8 +15,12 @@ public abstract class ApplicationPage extends Page {
 
     public abstract String getPageTitle();
 
+    private long executionStartTime;
+
     @Override
     public void initializeAction() {
+        executionStartTime = System.nanoTime();
+
         super.initializeAction();
 
         put("pageTitle", getPageTitle());
@@ -33,5 +37,9 @@ public abstract class ApplicationPage extends Page {
         parse("topMenuFrame", topMenuFrame);
 
         super.finalizeAction();
+
+        long executionEndTime = System.nanoTime();
+
+        put("executionTime", (executionEndTime - executionStartTime) / 1000000);
     }
 }

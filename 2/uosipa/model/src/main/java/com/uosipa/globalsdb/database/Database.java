@@ -4,10 +4,10 @@ import com.intersys.globals.Connection;
 import com.intersys.globals.ConnectionContext;
 import com.intersys.globals.NodeReference;
 import com.intersys.globals.ProductInfo;
-import com.uosipa.globalsdb.model.Log;
-import com.uosipa.globalsdb.model.Service;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 /**
@@ -55,6 +55,84 @@ public class Database {
         return connection.createNodeReference(key).exists();
     }
 
-    public static void addToNode(String value, String... subscripts) {
+    public static void addToNode(String value, Object... subscripts) {
+        NodeReference nodeReference = connection.createNodeReference("logs");
+
+        for (Object subscript : subscripts) {
+            if (subscript instanceof Long) {
+                nodeReference.appendSubscript((Long) subscript);
+            } else {
+                nodeReference.appendSubscript((String) subscript);
+            }
+        }
+
+        nodeReference.set(value);
+        /*
+        //connection.releaseAllLocks();
+        connection.startTransaction();
+        try {
+            //nodeReference.acquireLock(NodeReference.EXCLUSIVE_LOCK, NodeReference.LOCK_INCREMENTALLY);
+
+            ValueList valueList;
+            if (nodeReference.exists()) {
+                valueList = nodeReference.getList();
+            } else {
+                valueList = connection.createList();
+            }
+
+            System.out.println(valueList.length());
+            for (int i = 0; i < valueList.length(); ++i) {
+                System.out.println(valueList.getNextString());
+            }
+            System.out.println("NEW VALUE = " + value);
+
+            valueList.append(value);
+
+            System.out.println("AFTER APPENDING");
+            nodeReference.set(valueList);
+
+            //nodeReference.releaseLock(NodeReference.EXCLUSIVE_LOCK, NodeReference.RELEASE_AT_TRANSACTION_END);
+
+            connection.commit();
+        } catch (GlobalsException e) {
+            e.printStackTrace();
+            connection.rollback();
+        }
+        */
+    }
+
+    public static String getNodeValue(Object... subscripts) {
+        NodeReference nodeReference = connection.createNodeReference("logs");
+        for (Object subscript : subscripts) {
+            if (subscript instanceof Long) {
+                nodeReference.appendSubscript((Long) subscript);
+            } else {
+                nodeReference.appendSubscript((String) subscript);
+            }
+        }
+
+        return nodeReference.getString();
+    }
+
+    public static List<String> getAllSubscripts(String... subscripts) {
+        NodeReference nodeReference = connection.createNodeReference("logs");
+
+        List<String> result = new ArrayList<String>();
+        for (String subscript : subscripts) {
+            nodeReference.appendSubscript(subscript);
+        }
+
+        String subscript = "";
+        do {
+            subscript = nodeReference.previousSubscript(subscript);
+            if (subscript.length() > 0)
+                result.add(subscript);
+        } while (subscript.length() > 0);
+
+        return result;
+    }
+
+    public static void closeConnection() {
+        connection.close();
     }
 }

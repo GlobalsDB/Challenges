@@ -31,15 +31,31 @@
                 <#else>
                     <input type="checkbox" name="showFatal"/>{{Fatal}}
             </#if>
+            <#if showLogsConfig.showUnknown>
+                <input type="checkbox" name="showUnknown" checked/>{{Unknown}}
+                <#else>
+                    <input type="checkbox" name="showUnknown"/>{{Unknown}}
+            </#if>
         </span>
+    </form>
+</div>
+</#macro>
 
-    <#--<input type="submit" value="<@caption>Display</@caption>"/>-->
+<#macro uploadLogFile>
+<div class="upload-log-file">
+    <form enctype="multipart/form-data" action="" method="post">
+        <span>{{Upload log file}}:</span>
+
+        <input type="hidden" name="action" value="uploadLogFile"/>
+        <input type="file" name="logFile"/>
+        <input type="submit" class="button" value="{{Upload}}"/>
     </form>
 </div>
 </#macro>
 
 <@common.page>
 
+<@uploadLogFile/>
 <@logsFilter/>
 
 <table cellpadding="0" cellspacing="0" class="logs list-table">
@@ -63,12 +79,22 @@
                     <tr class="error">
                     <#elseif log.severity == "FATAL">
                     <tr class="error">
+                    <#elseif log.severity == "UNKNOWN">
+                    <tr class="unknown">
                     <#else>
                     <tr>
                 </#if>
-                <td>${log.date?string("yyyy-MM-dd HH:mm:ss.SSS")}</td>
+                <#if log.date??>
+                    <td>${log.date?string("yyyy-MM-dd HH:mm:ss.SSS")}</td>
+                    <#else>
+                        <td></td>
+                </#if>
                 <td>${log.severity}</td>
-                <td style="text-align: left;">${log.message}</td>
+                <#if log.message??>
+                    <td style="text-align: left;">${log.message}</td>
+                    <#else>
+                        <td style="text-align: left;"></td>
+                </#if>
             </tr>
             </#list>
             <#else>
@@ -78,7 +104,4 @@
         </#if>
     </tbody>
 </table>
-    <#if logs?? && (logs?size > 25)>
-    <@logsFilter/>
-    </#if>
 </@common.page>

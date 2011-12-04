@@ -3,9 +3,16 @@ package com.uosipa.globalsdb;
 import com.uosipa.globalsdb.model.Log;
 import com.uosipa.globalsdb.model.Service;
 
-import java.util.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class LogParser {
+    private static SimpleDateFormat httpdDateFormat = new SimpleDateFormat
+            ("dd/MMM/yyyy:HH:mm:ss", Locale.US);
+    private static SimpleDateFormat tomcatDateFormat = new SimpleDateFormat
+            ("dd.MM.yyyy HH:mm:ss", Locale.US);
+
     public static boolean isNewLogStart(String logString, Service service) {
         switch (service) {
             case HTTPD:
@@ -27,7 +34,7 @@ public class LogParser {
         return true;
     }
 
-    public static Log parse(String rawLog, Service service) {
+    public static Log parse(String rawLog, Service service) throws ParseException {
         Log log = new Log();
         log.setService(service);
         log.setSeverity(getSeverity(rawLog, service));
@@ -35,6 +42,40 @@ public class LogParser {
         log.setMessage(getMessage(rawLog, service));
 
         return log;
+    }
+
+    public static List<Log> parse(Collection<String> rawLogs, Service service) {
+        List<Log> result = new ArrayList<Log>();
+
+        StringBuilder log = new StringBuilder();
+        //noinspection InfiniteLoopStatement
+        for (String logLine : rawLogs) {
+            if (LogParser.isNewLogStart(logLine, service)) {
+                if (log.length() > 0) {
+                    try {
+                        result.add(parse(log.toString(), service));
+                    } catch (java.text.ParseException ignored) {
+                        ignored.printStackTrace();
+                    }
+                }
+                log.delete(0, log.length());
+            }
+
+            if (log.length() > 0) {
+                log.append("\n");
+            }
+            log.append(logLine);
+        }
+
+        if (log.length() > 0) {
+            try {
+                result.add(parse(log.toString(), service));
+            } catch (java.text.ParseException ignored) {
+                ignored.printStackTrace();
+            }
+        }
+
+        return result;
     }
 
     private static String getMessage(String rawLog, Service service) {
@@ -49,8 +90,8 @@ public class LogParser {
     }
 
     private static String getTomcatLogMessage(String rawLog) {
-        String dummy = rawLog.substring(rawLog.indexOf("\\n") + 1);
-        return dummy.substring(dummy.indexOf(": " + 2));
+        String dummy = rawLog.substring(rawLog.indexOf("\n") + 1);
+        return dummy.substring(dummy.indexOf(": ") + 2);
     }
 
     private static String getHttpdLogMessage(String rawLog) {
@@ -84,7 +125,7 @@ public class LogParser {
         }
     }
 
-    public static Date getDate(String rawLog, Service service) {
+    public static Date getDate(String rawLog, Service service) throws ParseException {
         switch (service) {
             case HTTPD:
                 return getHttpLogDate(rawLog);
@@ -95,18 +136,18 @@ public class LogParser {
         }
     }
 
-    private static Date getTomcatLogDate(String rawLog) {
+    private static Date getTomcatLogDate(String rawLog) throws ParseException {
         String date = rawLog.substring(0, rawLog.indexOf(' '));
         String time = rawLog.substring(rawLog.indexOf(' ') + 1);
         time = time.substring(0, time.indexOf(' '));
 
-        return new Date(date + " " + time);
+        return tomcatDateFormat.parse(date + " " + time);
     }
 
-    private static Date getHttpLogDate(String rawLog) {
+    private static Date getHttpLogDate(String rawLog) throws ParseException {
         String date = rawLog.substring(rawLog.indexOf('[') + 1, rawLog.indexOf(']'));
 
-        return new Date(date);
+        return httpdDateFormat.parse(date.substring(0, date.indexOf(" "))); //TODO fix
     }
 
 

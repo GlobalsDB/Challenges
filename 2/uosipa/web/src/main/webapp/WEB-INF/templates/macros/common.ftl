@@ -18,6 +18,7 @@
         <link rel="stylesheet" href="${home}/${file}" type="text/css"/>
     </#list>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
     <#list js as file>
         <script type="text/javascript" src="${home}/${file}"></script>
     </#list>
@@ -30,7 +31,7 @@
     </div>
 
     <#if user??>
-    <#--<@frame name="menuFrame"/>-->
+    <@frame name="menuFrame"/>
     <@frame name="sectionMenuFrame"/>
     </#if>
 
@@ -40,9 +41,8 @@
 
     <div class="footer">
         <div>Globals Challenge #2 - Managing Data</div>
-        <br/>
-
         <div>Globals version: ${globalsVersion}</div>
+        <div>{{Execution time:}} ${executionTime} {{ms}}.</div>
     </div>
 </div>
 

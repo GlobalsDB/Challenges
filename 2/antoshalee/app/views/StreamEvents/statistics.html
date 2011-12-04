@@ -1,0 +1,19 @@
+#{extends 'main.html' /}
+#{set title:'Clickstream statistics' /}
+
+#{set 'moreScripts'}
+	#{script 'jquery.jqplot.min.js' /}
+    #{script 'jqplot.pointLabels.min.js' /}
+    #{script 'jqplot.categoryAxisRenderer.min.js' /}
+    #{script 'jqplot.barRenderer.min.js' /}
+    #{script 'statistics.js' /}
+#{/set}
+
+#{set 'moreStyles'}
+	#{stylesheet 'bootstrap.css' /}
+	#{stylesheet 'jquery.jqplot.min.css' /}
+#{/set}
+
+<h1>How often user clicks some elements</h1>
+
+<div id="chart1" style="width:800px; height:400px;"></div>

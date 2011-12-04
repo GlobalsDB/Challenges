@@ -1,14 +1,12 @@
 package com.uosipa.globalsdb.web.page.refreshable;
 
-import com.uosipa.globalsdb.LogParser;
 import com.uosipa.globalsdb.dao.LogDao;
 import com.uosipa.globalsdb.model.Log;
 import com.uosipa.globalsdb.model.Service;
-import com.uosipa.globalsdb.util.StringUtil;
+import com.uosipa.globalsdb.model.User;
 import com.uosipa.globalsdb.web.page.UserPage;
 import com.uosipa.globalsdb.web.page.frame.MenuFrame;
 import org.nocturne.annotation.Action;
-import org.nocturne.annotation.Parameter;
 import org.nocturne.link.Link;
 
 import java.util.ArrayList;
@@ -17,14 +15,13 @@ import java.util.List;
 /**
  * @author Dmitry Levshunov (levshunov.d@gmail.com)
  */
-@Link("refreshable-logs/{service}")
+@Link("refreshable-logs")
 public class RefreshableLogsPage extends UserPage {
-    @Parameter
-    private Service service;
+    private static User SYSTEM_USER = new User("system", "");
 
     @Override
     public String getPageTitle() {
-        return $(service.toString()) + " " + $("logs");
+        return $("Local service logs");
     }
 
     @Override
@@ -39,12 +36,12 @@ public class RefreshableLogsPage extends UserPage {
     public void action() {
         Log.Severity[] severities = getSeveritiesFilter();
 
-        put("logs", LogDao.getInstance().findLastLogs(500, getUser(), service, severities));
+        put("logs", LogDao.getInstance().findLastLogs(500, SYSTEM_USER, Service.HTTPD, severities));
         put("showLogsConfig", new ShowLogsConfig(severities));
     }
 
     private Log.Severity[] getSeveritiesFilter() {
-        Log.Severity[] severities = getSession("logs-" + service, Log.Severity[].class);
+        Log.Severity[] severities = getSession("logs-local", Log.Severity[].class);
         if (severities == null) {
             severities = Log.Severity.values();
         }
@@ -55,7 +52,7 @@ public class RefreshableLogsPage extends UserPage {
     @Action("applyFilter")
     public void applyFilter() {
         String[] checkedSeverities = (String[]) getRequest().getParameterMap().get("checkedSeverities[]");
-        putSession("logs-" + service, parseSeveritiesList(checkedSeverities));
+        putSession("logs-local", parseSeveritiesList(checkedSeverities));
         skipTemplate();
     }
 
@@ -93,7 +90,7 @@ public class RefreshableLogsPage extends UserPage {
     @Override
     public void finalizeAction() {
         parse("menuFrame", new MenuFrame(this.getClass()));
-        parse("sectionMenuFrame", new SectionMenuFrame(service));
+        parse("sectionMenuFrame", new SectionMenuFrame());
 
         super.finalizeAction();
     }

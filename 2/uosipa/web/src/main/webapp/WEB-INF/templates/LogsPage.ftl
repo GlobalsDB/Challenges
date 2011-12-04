@@ -104,7 +104,4 @@
         </#if>
     </tbody>
 </table>
-    <#if logs?? && (logs?size > 25)>
-    <@logsFilter/>
-    </#if>
 </@common.page>

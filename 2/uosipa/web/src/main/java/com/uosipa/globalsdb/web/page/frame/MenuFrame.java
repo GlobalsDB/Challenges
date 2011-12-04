@@ -24,23 +24,15 @@ public class MenuFrame extends ApplicationFrame {
         List<Link> links = new ArrayList<Link>();
 
         if (currentPageClass.equals(LogsPage.class)) {
-            links.add(new Link(Links.getLink(
-                    LogsPage.class, "service", Service.HTTPD
-            ), $("Logs"), true));
+            links.add(new Link(Links.getLink(LogsPage.class, "service", Service.HTTPD), $("Logs"), true));
         } else {
-            links.add(new Link(Links.getLink(
-                    LogsPage.class, "service", Service.HTTPD
-            ), $("Logs"), false));
+            links.add(new Link(Links.getLink(LogsPage.class, "service", Service.HTTPD), $("Logs"), false));
         }
 
         if (currentPageClass.equals(RefreshableLogsPage.class)) {
-            links.add(new Link(Links.getLink(
-                    RefreshableLogsPage.class, "service", Service.HTTPD
-            ), $("Local service logs"), true));
+            links.add(new Link(Links.getLink(RefreshableLogsPage.class), $("Local service logs"), true));
         } else {
-            links.add(new Link(Links.getLink(
-                    RefreshableLogsPage.class, "service", Service.HTTPD
-            ), $("Local service logs"), false));
+            links.add(new Link(Links.getLink(RefreshableLogsPage.class), $("Local service logs"), false));
         }
 
         put("links", links);

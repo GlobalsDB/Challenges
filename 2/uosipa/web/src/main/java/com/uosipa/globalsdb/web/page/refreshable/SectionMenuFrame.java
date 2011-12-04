@@ -11,24 +11,11 @@ import java.util.Collection;
  * @author Dmitry Levshunov (levshunov.d@gmail.com)
  */
 class SectionMenuFrame extends ApplicationFrame {
-    private Service currentService;
-
-    public SectionMenuFrame(Service currentService) {
-        this.currentService = currentService;
-    }
-
     @Override
     public void action() {
         Collection<Link> links = new ArrayList<Link>();
 
-        Service[] services = Service.values();
-        for (Service service : services) {
-            links.add(new Link(
-                    Links.getLink(RefreshableLogsPage.class, "service", service),
-                    $(service.toString()),
-                    service == currentService
-            ));
-        }
+        links.add(new Link(Links.getLink(RefreshableLogsPage.class), $(Service.HTTPD.toString()), true));
 
         put("links", links);
     }

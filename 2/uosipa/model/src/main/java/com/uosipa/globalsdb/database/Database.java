@@ -74,23 +74,20 @@ public class Database {
         return nodeReference.getString();
     }
 
-    public static List<NodeReference> getAllSubnodes(String... subscripts) {
+    public static List<String> getAllSubscripts(String... subscripts) {
         NodeReference nodeReference = connection.createNodeReference("logs");
 
-        List<NodeReference> result = new ArrayList<NodeReference>();
+        List<String> result = new ArrayList<String>();
         for (String subscript : subscripts) {
             nodeReference.appendSubscript(subscript);
         }
 
-        for (int i = 0; i < nodeReference.getSubscriptCount(); ++i) {
-            NodeReference childNode = connection.createNodeReference("logs");
-            for (String subscript : subscripts) {
-                childNode.appendSubscript(subscript);
-            }
-            childNode.appendSubscript(nodeReference.getStringSubscript(i));
-
-            result.add(childNode);
-        }
+        String subscript = "";
+        do {
+            subscript = nodeReference.nextSubscript(subscript);
+            if (subscript.length() > 0)
+                result.add(subscript);
+        } while (subscript.length() > 0);
 
         return result;
     }

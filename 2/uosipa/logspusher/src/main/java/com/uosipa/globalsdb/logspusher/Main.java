@@ -1,16 +1,13 @@
 package com.uosipa.globalsdb.logspusher;
 
-import com.intersys.globals.NodeReference;
-import com.intersys.globals.samples.Sample;
 import com.uosipa.globalsdb.LogParser;
 import com.uosipa.globalsdb.dao.LogDao;
+import com.uosipa.globalsdb.model.Log;
 import com.uosipa.globalsdb.model.Service;
 import com.uosipa.globalsdb.model.User;
 import org.apache.commons.cli.*;
-import org.apache.commons.cli.ParseException;
 
 import java.io.*;
-import java.text.*;
 
 public class Main {
     private static File file;

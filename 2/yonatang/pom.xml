@@ -1,0 +1,204 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>me.yonatan.globals</groupId>
+	<artifactId>c2</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<tomcat.version>7.0.23</tomcat.version>
+		<jrebel.version>1.0.8</jrebel.version>
+		<maven.compiler.plugin.version>2.3.2</maven.compiler.plugin.version>
+		<project.build.java.version>1.6</project.build.java.version>
+		<lombok.version>0.10.4</lombok.version>
+		<jsf.version>2.1.5</jsf.version>
+		<primefaces.version>3.0.M4</primefaces.version>
+		<weld.version>1.1.4.Final</weld.version>
+		<commons.lang3.version>3.1</commons.lang3.version>
+		<commons.io.version>2.1</commons.io.version>
+		<DJNAtive.version>1.0</DJNAtive.version>
+		<joda.version>2.0</joda.version>
+		<globals.version>2011.111</globals.version>
+		<gson.version>2.0</gson.version>
+		<commons.codec.version>1.5</commons.codec.version>
+		<jboss.logging.version>3.1.0.CR2</jboss.logging.version>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+
+			<dependency>
+				<artifactId>tomcat-catalina</artifactId>
+				<groupId>org.apache.tomcat</groupId>
+				<version>${tomcat.version}</version>
+			</dependency>
+			<dependency>
+				<artifactId>tomcat-jasper</artifactId>
+				<groupId>org.apache.tomcat</groupId>
+				<version>${tomcat.version}</version>
+			</dependency>
+			<dependency>
+				<artifactId>tomcat-embed-core</artifactId>
+				<groupId>org.apache.tomcat.embed</groupId>
+				<version>${tomcat.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.globalsdb</groupId>
+				<artifactId>globalsdb</artifactId>
+				<version>${globals.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.sun.faces</groupId>
+				<artifactId>jsf-api</artifactId>
+				<version>${jsf.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.sun.faces</groupId>
+				<artifactId>jsf-impl</artifactId>
+				<version>${jsf.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.primefaces</groupId>
+				<artifactId>primefaces</artifactId>
+				<version>${primefaces.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.jboss.weld.servlet</groupId>
+				<artifactId>weld-servlet</artifactId>
+				<version>${weld.version}</version>
+			</dependency>
+
+
+			<dependency>
+				<groupId>org.projectlombok</groupId>
+				<artifactId>lombok</artifactId>
+				<version>${lombok.version}</version>
+				<scope>provided</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>${commons.lang3.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-io</groupId>
+				<artifactId>commons-io</artifactId>
+				<version>${commons.io.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-codec</groupId>
+				<artifactId>commons-codec</artifactId>
+				<version>${commons.codec.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>joda-time</groupId>
+				<artifactId>joda-time</artifactId>
+				<version>${joda.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.google.code.gson</groupId>
+				<artifactId>gson</artifactId>
+				<version>${gson.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.jboss.logging</groupId>
+				<artifactId>jboss-logging</artifactId>
+				<version>${jboss.logging.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>dj</groupId>
+				<artifactId>DJNAtiveSwing-SWTCore</artifactId>
+				<version>${DJNAtive.version}</version>
+				<type>jar</type>
+			</dependency>
+			<dependency>
+				<groupId>dj</groupId>
+				<artifactId>DJNAtiveSwing-SWT</artifactId>
+				<version>${DJNAtive.version}</version>
+				<type>jar</type>
+			</dependency>
+			<dependency>
+				<groupId>dj</groupId>
+				<artifactId>DJNativeSwing-SWTAPI</artifactId>
+				<version>${DJNAtive.version}</version>
+				<type>jar</type>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.zeroturnaround</groupId>
+					<artifactId>jrebel-maven-plugin</artifactId>
+					<version>${jrebel.version}</version>
+					<executions>
+						<execution>
+							<id>generate-rebel-xml</id>
+							<phase>process-resources</phase>
+							<goals>
+								<goal>generate</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>${maven.compiler.plugin.version}</version>
+					<configuration>
+						<source>${project.build.java.version}</source>
+						<target>${project.build.java.version}</target>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+		<plugins>
+			<plugin>
+				<groupId>org.zeroturnaround</groupId>
+				<artifactId>jrebel-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+	<repositories>
+		<repository>
+			<id>jboss-public</id>
+			<url>https://repository.jboss.org/nexus/content/groups/public-jboss/</url>
+		</repository>
+		<repository>
+			<id>prime-repo</id>
+			<name>PrimeFaces Maven Repository</name>
+			<url>http://repository.primefaces.org</url>
+			<layout>default</layout>
+		</repository>
+		<repository>
+			<id>dj</id>
+			<url>https://github.com/lacevedo/DJ-Maven-Project/raw/master/maven_repository</url>
+		</repository>
+		<repository>
+			<id>yonatans</id>
+			<url>https://github.com/yonatang/globalsdb-challenge2/raw/master/m2repo</url>
+		</repository>
+	</repositories>
+
+	<modules>
+		<module>war</module>
+		<module>runner</module>
+	</modules>
+
+
+
+</project>

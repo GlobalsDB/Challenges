@@ -32,3 +32,6 @@ Download  play framework (http://download.playframework.org/releases/play-1.2.3.
 
 3. Copy application into folder %AppFolder%
 4. Change current directory to %AppFolder%
+
+Try It:
+http://winhost.semki.biz/

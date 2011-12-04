@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<!-- 
+		Replace path to template, title, header and body
+		with actual data.
+	 -->
+<h:head>
+	<style>
+.ui-datatable-header {
+	text-align: left ! important;
+}
+</style>
+</h:head>
+<h:body>
+	<script type="text/javascript">  
+    function handlePollComplete(xhr, status, args) {
+        console.log("Done!",status,args);
+    }  
+
+    
+</script>
+	<h:form id="menuForm">
+		<p:menubar>
+			<p:submenu label="File">
+				<p:menuitem value="Open" onclick="localFileDialog.show();" />
+				<p:separator />
+				<p:menuitem value="Quit" />
+			</p:submenu>
+			<p:menuitem value="Help" onclick="helpDialog.show();" />
+		</p:menubar>
+	</h:form>
+	<h:form id="tabsForm">
+		<p:panel id="mainPanel">
+			<p:growl id="growl" showDetail="true" sticky="true" autoUpdate="true" />
+			<p:tabView id="tabs" var="logTable" value="#{logTableTabsBean.tabs}"
+				widgetVar="tabsWidget" rendered="#{logTableTabsBean.tabs.size()>0}">
+				<p:ajax event="tabClose" listener="#{logTableTabsBean.onTabClose}" />
+
+				<p:tab title="#{logTable.logFile.name}" closable="true">
+					<p:remoteCommand name="refreshTable" update="logTable"></p:remoteCommand>
+					<p:poll async="true" listener="#{logTable.pollForChanges}"
+						interval="10" oncomplete="handlePollComplete(xhr, status, args)"></p:poll>
+
+					<p:hotkey bind="right"
+						handler="$(logTableWidget.getPaginator().nextLink[0]).click();"></p:hotkey>
+					<p:hotkey bind="left"
+						handler="$(logTableWidget.getPaginator().prevLink[0]).click();"></p:hotkey>
+
+					<p:contextMenu for="logTable">
+						<p:menuitem value="Filter" update="logTable,filters"
+							actionListener="#{logTable.filterByIp}"
+							icon="ui-icon ui-icon-search" />
+					</p:contextMenu>
+					<p:outputPanel id="filters">
+						<h:outputLabel value="From" for="fromDate" />
+						<p:spacer width="10" />
+						<p:calendar id="fromDate"
+							value="#{logTable.dataModel.fromDateFilter}"
+							readOnlyInputText="true" pattern="dd/MM/yyyy HH:mm:ss">
+							<p:ajax event="dateSelect" oncomplete="logTableWidget.filter();" />
+						</p:calendar>
+						<p:spacer width="10" />
+						<p:commandButton image="ui-icon ui-icon-close" update="fromDate"
+							title="Clear date" oncomplete="logTableWidget.filter();">
+							<f:setPropertyActionListener
+								target="#{logTable.dataModel.fromDateFilter}" value="#{null}" />
+						</p:commandButton>
+						<p:spacer width="30" />
+
+						<h:outputLabel value="To" for="toDate" />
+						<p:spacer width="10" />
+						<p:calendar id="toDate" value="#{logTable.dataModel.toDateFilter}"
+							readOnlyInputText="true" pattern="dd/MM/yyyy HH:mm:ss">
+							<p:ajax event="dateSelect" oncomplete="logTableWidget.filter();" />
+						</p:calendar>
+						<p:spacer width="10" />
+						<p:commandButton image="ui-icon ui-icon-close" update="toDate"
+							title="Clear date" oncomplete="logTableWidget.filter();">
+							<f:setPropertyActionListener
+								target="#{logTable.dataModel.toDateFilter}" value="#{null}" />
+						</p:commandButton>
+						<p:spacer width="30" />
+
+						<h:outputLabel value="IP" for="ip" />
+						<p:spacer width="10" />
+						<p:inputText id="ip" value="#{logTable.dataModel.ipFilter}">
+							<p:ajax event="keyup"
+								oncomplete="logTableWidget.filter(); refreshTable();"
+								update="logTable" />
+						</p:inputText>
+						<p:spacer width="10" />
+						<p:commandButton image="ui-icon ui-icon-close" update="ip"
+							title="Clear ip" oncomplete="logTableWidget.filter();">
+							<f:setPropertyActionListener
+								target="#{logTable.dataModel.ipFilter}" value="#{null}" />
+						</p:commandButton>
+
+						<p:commandButton style="float:right"
+							image="ui-icon ui-icon-refresh"
+							onchange="refreshTable(); return false;" title="Refresh" />
+
+					</p:outputPanel>
+					<p:dataTable id="logTable" value="#{logTable.dataModel}"
+						widgetVar="logTableWidget" var="_record" lazy="true" rows="10"
+						paginator="true" rowKey="#{_record.id}" selectionMode="single"
+						paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {PageLinks} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+						rowsPerPageTemplate="10,20,50,100" resizableColumns="true">
+						<p:ajax event="page" listener="#{logTable.onPage}" />
+						<p:ajax event="rowSelect" listener="#{logTable.onSelect}" />
+						<p:column>
+							<f:facet name="header">Id</f:facet>
+							<h:outputText value="#{_record.id}" />
+						</p:column>
+						<p:column>
+							<f:facet name="header">Timestamp</f:facet>
+							<h:outputText value="#{_record.timestamp}" />
+						</p:column>
+						<p:column>
+							<f:facet name="header">IP</f:facet>
+							<h:outputText value="#{_record.ip}" />
+						</p:column>
+						<p:column style="width:100%">
+							<f:facet name="header">Description</f:facet>
+							<h:outputText value="#{_record.description}" />
+						</p:column>
+					</p:dataTable>
+				</p:tab>
+
+			</p:tabView>
+		</p:panel>
+	</h:form>
+
+	<h:form id="form">
+		<script type="text/javascript">
+			function startLoading(){
+				setTimeout(function(){
+					$('#form\\:fileLocation').attr('readonly',true); 
+					$('#form\\:ajaxWait').show(); 
+					$('#form\\:openButton').button('disable'); 
+					$('#form\\:closeButton').button('disable'); 
+				},50);
+				return true;	
+			}
+			function stopLoading(){
+				$('#form\\:fileLocation').removeAttr('readonly'); 
+				$('#form\\:ajaxWait').hide(); 
+				$('#form\\:openButton').button('enable'); 
+				$('#form\\:closeButton').button('enable');
+				}
+		</script>
+		<p:dialog header="Open file" widgetVar="localFileDialog"
+			closable="false" modal="true" resizable="false">
+			<h:panelGroup layout="block">
+				<h:outputLabel value="File location" for="fileLocation"
+					style="padding-right:10px;" />
+				<p:inputText id="fileLocation"
+					value="#{fileImportBean.localFileLocation}" style="width:300px;"
+					widgetVar="fileLocationWidget" required="true" />
+				<h:message for="fileLocation" />
+			</h:panelGroup>
+			<h:panelGroup style="padding-top:20px;" layout="block">
+				<p:commandButton id="openButton" value="Open" ajax="true"
+					widgetVar="openButtonWidget"
+					action="#{fileImportBean.openLocal()}"
+					onstart="return startLoading();"
+					update="tabsForm"
+					onsuccess="localFileDialog.hide();" oncomplete="stopLoading();"></p:commandButton>
+				<p:commandButton id="closeButton" value="Cancel"
+					widgetVar="closeButtonWidget" onclick="localFileDialog.hide();" />
+				<h:graphicImage value="/images/ajax-loader.gif" id="ajaxWait"
+					style="display:none; padding-left: 20px;" />
+			</h:panelGroup>
+		</p:dialog>
+	</h:form>
+
+	<p:dialog id="helpDialog" widgetVar="helpDialog" closable="true"
+		modal="true" header="Help">
+		<li>Right click on item to filter by that IP</li>
+		<li>Use right or left keyboard keys to jump between pages</li>
+		<li>Log will autorefresh when on the last page of the table</li>
+
+
+	</p:dialog>
+</h:body>
+
+</html>

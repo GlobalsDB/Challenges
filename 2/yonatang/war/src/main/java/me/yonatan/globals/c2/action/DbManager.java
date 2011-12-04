@@ -39,6 +39,7 @@ public class DbManager {
 	private final String LOGS = "logs";
 
 	private int MAX_FILTERED_RESULTS = 5000;
+
 	@Inject
 	private Logger log;
 
@@ -58,7 +59,7 @@ public class DbManager {
 		}
 
 		String handler = "l" + StringUtils.substring(DigestUtils.shaHex(file.getCanonicalPath()), 0, 29);
-		System.out.println("Creating hadnler " + handler);
+		log.infov("Creating handler {0}", handler);
 		@Cleanup
 		NodeReference nr = connection.createNodeReference(handler);
 		nr.kill();
@@ -73,7 +74,7 @@ public class DbManager {
 	}
 
 	public void reloadFile(LogFile logFile) {
-		System.out.println("Loading file " + logFile);
+		log.infov("Loading file {0}", logFile);
 		File file = logFile.getFile();
 		// TODO
 		if (file == null)
@@ -121,7 +122,7 @@ public class DbManager {
 			nr.set(file.lastModified(), FILE_TIMESTAMP);
 
 			connection.commit();
-			System.out.println("Updated!");
+			log.info("Updated");
 		} catch (Exception e) {
 			log.errorv(e, "Can't load data");
 			connection.rollback();
@@ -357,4 +358,5 @@ public class DbManager {
 		private int totalResults;
 		private List<LogRecord> records;
 	}
+
 }

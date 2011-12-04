@@ -4,11 +4,11 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 
-import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
 import chrriis.dj.nativeswing.swtimpl.components.JWebBrowser;
 
+@SuppressWarnings("serial")
 public class Window extends JPanel {
 
 	public Window(String url) {

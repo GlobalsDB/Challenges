@@ -57,16 +57,17 @@ if(process.argv.length){
 			console.log('Log file id: ' + arg + ' not found.');
 		}		
 	} else if (cmd === 'start') {
+		webport = arg || 3000; 
 		startWeb = true;
 	} else {
 		console.log('Usage: node ./app.js [commands] [arguments]\n');
 		console.log('Commands:')
-		console.log('   start - start webserver')
-		console.log('   addlog - Add log file')
-		console.log('   viewlog - view log')
-		console.log('   refresh - refresh from file')
-		console.log('   list - show list logs')
-		console.log('   remove - remove log')
+		console.log('   start [port] \t start webserver on port, default port 3000')
+		console.log('   addlog file \t\t Add log file')
+		console.log('   viewlog id \t\t view log')
+		console.log('   refresh id \t\t refresh from file')
+		console.log('   list \t\t show list logs')
+		console.log('   remove id \t\t remove log')
 	}
 	console.log('');
 }
@@ -113,7 +114,7 @@ app.get('/import', routes.importForm);
 app.post('/import/new', routes.importFile);
 app.post('/logs/filter', routes.logsFilter);
 
-app.listen(3000);
+app.listen(webport);
 
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
 

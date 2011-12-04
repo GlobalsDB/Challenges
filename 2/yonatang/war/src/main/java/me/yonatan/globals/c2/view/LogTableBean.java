@@ -3,8 +3,6 @@ package me.yonatan.globals.c2.view;
 import java.io.File;
 import java.io.Serializable;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -61,8 +59,6 @@ public class LogTableBean implements Serializable {
 	public void pollForChanges() {
 		if (FileUtils.isFileNewer(new File(logFile.getFileName()), logFile.getLastUpdated().toDate())) {
 			log.infov("File {0} has changed. Reloading.", logFile);
-			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Successful", "Hello "));
 			dbManager.reloadFile(logFile);
 			setLogFile(dbManager.getFileInfo(logFile.getHandler()));
 			if (autoRefresh) {

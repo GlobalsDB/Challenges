@@ -124,7 +124,7 @@ public class Database {
 
         String subscript = "";
         do {
-            subscript = nodeReference.nextSubscript(subscript);
+            subscript = nodeReference.previousSubscript(subscript);
             if (subscript.length() > 0)
                 result.add(subscript);
         } while (subscript.length() > 0);

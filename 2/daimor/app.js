@@ -4,7 +4,6 @@
  */
 
 var express = require('express')
-  , form = require('connect-form')
   , routes = require('./routes')
   , globals = require('cache')
  
@@ -77,7 +76,7 @@ if(!startWeb) {
 }
 
 var app = module.exports = express.createServer(
-		form({ keepExtensions: true })
+//		form({ keepExtensions: true })
 	);
 
 // Configuration

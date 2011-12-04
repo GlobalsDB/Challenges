@@ -1,11 +1,15 @@
 package com.uosipa.globalsdb.dao;
 
+import com.intersys.globals.NodeReference;
 import com.uosipa.globalsdb.database.Database;
 import com.uosipa.globalsdb.model.Log;
 import com.uosipa.globalsdb.model.Service;
 import com.uosipa.globalsdb.model.User;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
 
 public class LogDao {
     private static final LogDao INSTANCE = new LogDao();
@@ -19,11 +23,27 @@ public class LogDao {
     }
 
     public List<Log> findLogs(User user, Service service, Log.Severity... severities) {
-        //TODO implement
-//        return Collections.emptyList();
+        List<Log> result = new ArrayList<Log>();
 
+        for (Log.Severity severity : severities) {
+            List<NodeReference> subnodes = Database.getAllSubnodes(
+                    user.getLogin(), service.toString(), severity.toString()
+            );
 
-        Collection<Log.Severity> severityCollection = Arrays.asList(severities);
+            for (NodeReference subnode : subnodes) {
+                Log log = new Log();
+                log.setService(service);
+                log.setSeverity(severity);
+                log.setDate(null/*TODO*/);
+                log.setMessage(subnode.getString());
+
+                result.add(log);
+            }
+        }
+
+        return result;
+
+        /*Collection<Log.Severity> severityCollection = Arrays.asList(severities);
 
         List<Log> testLogs = createTestLogs();
         List<Log> result = new ArrayList<Log>();
@@ -34,10 +54,13 @@ public class LogDao {
         }
 
         return result;
+        */
     }
 
-    public void addLogs(Collection<Log> logs) {
-        //TODO implement
+    public void addLogs(User user, Collection<Log> logs) {
+        for (Log log : logs) {
+            addLog(user, log);
+        }
     }
 
     public static List<Log> createTestLogs() {
@@ -76,7 +99,10 @@ public class LogDao {
         return result;
     }
 
-    public void addLog(User user, Log parse) {
-        //Database.addToNode();
+    public void addLog(User user, Log log) {
+        Database.addToNode(
+                log.getMessage(), user.getLogin(), log.getService().toString(),
+                log.getSeverity().toString(), log.getDate().toString()
+        );
     }
 }

@@ -37,6 +37,10 @@ a {
 	background-color: #eee;
 }
 
+.menu a {
+	margin: 0px;
+}
+
 .menuitem {
 	float: left;
 	padding: 5px 15px;

@@ -1,5 +1,7 @@
 package com.uosipa.globalsdb.logspusher;
 
+import com.intersys.globals.NodeReference;
+import com.intersys.globals.samples.Sample;
 import com.uosipa.globalsdb.LogParser;
 import com.uosipa.globalsdb.dao.LogDao;
 import com.uosipa.globalsdb.model.Service;
@@ -18,6 +20,7 @@ public class Main {
     public static void main(String[] args) throws IOException, ParseException {
         parseArguments(args);
         run();
+        //Sample.main(args);
     }
 
     private static void run() throws IOException {

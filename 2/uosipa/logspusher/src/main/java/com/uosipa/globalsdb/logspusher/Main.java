@@ -2,6 +2,7 @@ package com.uosipa.globalsdb.logspusher;
 
 import com.uosipa.globalsdb.LogParser;
 import com.uosipa.globalsdb.dao.LogDao;
+import com.uosipa.globalsdb.model.Log;
 import com.uosipa.globalsdb.model.Service;
 import com.uosipa.globalsdb.model.User;
 import org.apache.commons.cli.*;
@@ -32,15 +33,15 @@ public class Main {
         StringBuilder log = new StringBuilder();
         String logLine;
         //noinspection InfiniteLoopStatement
-        //exit:
+        exit:
         while (true) {
             while ((logLine = reader.readLine()) == null) {
                 try {
                     Thread.sleep(50);
                 } catch (InterruptedException ignored) {
                 }
-/*
-                break exit;*/
+
+                break exit;
             }
 
             if (LogParser.isNewLogStart(logLine, service)) {
@@ -59,10 +60,10 @@ public class Main {
             }
             log.append(logLine);
         }
-/*
+
         for (Log logg : LogDao.getInstance().findLogs(user, service, Log.Severity.FATAL)) {
             System.out.println(logg.getDate() + " " + logg.getMessage());
-        }*/
+        }
     }
 
     public static void parseArguments(String[] args) throws ParseException {

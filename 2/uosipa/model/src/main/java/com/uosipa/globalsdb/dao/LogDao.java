@@ -74,4 +74,8 @@ public class LogDao {
 
         return result;
     }
+
+    public void addLog(User user, Log parse) {
+        //TODO implement
+    }
 }

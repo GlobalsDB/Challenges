@@ -2,12 +2,13 @@ package com.uosipa.globalsdb.logspusher;
 
 import com.uosipa.globalsdb.LogParser;
 import com.uosipa.globalsdb.dao.LogDao;
-import com.uosipa.globalsdb.dao.UserDao;
 import com.uosipa.globalsdb.model.Service;
 import com.uosipa.globalsdb.model.User;
 import org.apache.commons.cli.*;
+import org.apache.commons.cli.ParseException;
 
 import java.io.*;
+import java.text.*;
 
 public class Main {
     private static File file;
@@ -41,12 +42,18 @@ public class Main {
             }
 
             if (LogParser.isNewLogStart(logLine, service)) {
-                LogDao.getInstance().addLog(user, LogParser.parse(log.toString(), service));
+                if (log.length() > 0) {
+                    try {
+                        LogDao.getInstance().addLog(user, LogParser.parse(log.toString(), service));
+                    } catch (java.text.ParseException ignored) {
+                        ignored.printStackTrace();
+                    }
+                }
                 log.delete(0, log.length());
             }
 
             if (log.length() > 0) {
-                log.append("\\n");
+                log.append("\n");
             }
             log.append(logLine);
         }
@@ -64,21 +71,21 @@ public class Main {
         CommandLineParser parser = new PosixParser();
         CommandLine cmd = parser.parse(options, args);
 
-         if (cmd.hasOption("help")) {
+        if (cmd.hasOption("help")) {
             HelpFormatter formatter = new HelpFormatter();
             formatter.printHelp("java -jar logpusher.jar", options, true);
             return;
         }
 
-        file = new File(cmd.getOptionValue("file"));
+        file = new File(cmd.getOptionValue("log-file"));
 
 
-        if ("--httpd".equals(cmd.getOptionValue("log-file"))) {
+        if ("httpd".equals(cmd.getOptionValue("service"))) {
             service = Service.HTTPD;
-        } else if ("--tomcat".equals(cmd.getOptionValue("log-file"))) {
+        } else if ("tomcat".equals(cmd.getOptionValue("service"))) {
             service = Service.TOMCAT;
         } else {
-            throw new IllegalArgumentException("Unsupported file format " + args[1]);
+            throw new IllegalArgumentException("Unsupported file format " + cmd.getOptionValue("service"));
         }
 
         user = new User(cmd.getOptionValue("login"), cmd.getOptionValue("password"));

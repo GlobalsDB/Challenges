@@ -29,3 +29,5 @@ system files on start webserver, start autorefresh
 running on amazon
 http://ec2-174-129-150-114.compute-1.amazonaws.com/
 
+added
+logViewer - logging some actions in logViewer

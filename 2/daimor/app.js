@@ -99,6 +99,10 @@ app.configure('production', function(){
 
 // Routes
 
+app.get('*',function(req, res, next){
+	listLogs.logger(req.client.remoteAddress + ' ' + req.method + ' ' + req.url);
+	next();
+})
 app.get('/', routes.index);
 app.get('/logs/remove/:id', routes.logsRemove);
 app.get('/logs/refresh/:id', routes.logRefresh);
@@ -107,10 +111,13 @@ app.get('/logs/:id/:max', routes.logs);
 app.get('/logs', routes.logs);
 app.get('/import', routes.importForm);
 app.post('/import/new', routes.importFile);
+app.post('/logs/filter', routes.logsFilter);
 
 app.listen(3000);
 
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
 
 listLogs.startAutoRefresh();
+
+listLogs.logger('Express server listening on port ' +app.address().port + ' in ' + app.settings.env + ' mode');
 

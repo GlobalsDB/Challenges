@@ -1,5 +1,6 @@
 package com.uosipa.globalsdb.dao;
 
+import com.uosipa.globalsdb.database.Database;
 import com.uosipa.globalsdb.model.Log;
 import com.uosipa.globalsdb.model.Service;
 import com.uosipa.globalsdb.model.User;
@@ -76,6 +77,6 @@ public class LogDao {
     }
 
     public void addLog(User user, Log parse) {
-        //TODO implement
+        //Database.addToNode();
     }
 }

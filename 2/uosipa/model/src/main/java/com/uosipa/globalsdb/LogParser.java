@@ -5,8 +5,7 @@ import com.uosipa.globalsdb.model.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
+import java.util.*;
 
 public class LogParser {
     private static SimpleDateFormat httpdDateFormat = new SimpleDateFormat
@@ -43,6 +42,40 @@ public class LogParser {
         log.setMessage(getMessage(rawLog, service));
 
         return log;
+    }
+
+    public static List<Log> parse(Collection<String> rawLogs, Service service) {
+        List<Log> result = new ArrayList<Log>();
+
+        StringBuilder log = new StringBuilder();
+        //noinspection InfiniteLoopStatement
+        for (String logLine : rawLogs) {
+            if (LogParser.isNewLogStart(logLine, service)) {
+                if (log.length() > 0) {
+                    try {
+                        result.add(parse(log.toString(), service));
+                    } catch (java.text.ParseException ignored) {
+                        ignored.printStackTrace();
+                    }
+                }
+                log.delete(0, log.length());
+            }
+
+            if (log.length() > 0) {
+                log.append("\n");
+            }
+            log.append(logLine);
+        }
+
+        if (log.length() > 0) {
+            try {
+                result.add(parse(log.toString(), service));
+            } catch (java.text.ParseException ignored) {
+                ignored.printStackTrace();
+            }
+        }
+
+        return result;
     }
 
     private static String getMessage(String rawLog, Service service) {

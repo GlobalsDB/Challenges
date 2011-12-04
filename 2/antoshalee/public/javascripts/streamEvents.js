@@ -64,7 +64,7 @@ clearFilter = function () {
     $('#element_class').val('');
     $('#datepicker1').val('');
     $('#datepicker2').val('');
-    $('#sessionId').val('');
+    $('#session_id').val('');
 };
 
 initFilter = function () {

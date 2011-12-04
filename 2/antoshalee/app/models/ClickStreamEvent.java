@@ -4,29 +4,29 @@ import core.Index;
 import core.Persistent;
 
 public class ClickStreamEvent extends Persistent {
-	@Index(IndexName="eventTypeIndex")
+	@Index(IndexName = "eventTypeIndex")
 	public String eventType;
-	
-	@Index(IndexName="elementTypeIndex")
+
+	@Index(IndexName = "elementTypeIndex")
 	public String elementType;
-	
-	@Index(IndexName="mouseXIndex")
+
+	@Index(IndexName = "mouseXIndex")
 	public String mouseX;
-	
-	@Index(IndexName="mouseYIndex")
+
+	@Index(IndexName = "mouseYIndex")
 	public String mouseY;
-	
-	@Index(IndexName="elementIdIndex")
+
+	@Index(IndexName = "elementIdIndex")
 	public String elementId;
-	
-	@Index(IndexName="elementClassIndex")
+
+	@Index(IndexName = "elementClassIndex")
 	public String elementClass;
-	
-	@Index(IndexName="timeStampIndex")
+
+	@Index(IndexName = "timeStampIndex")
 	public String timeStamp;
-	
+
 	// In SessionId IP address will be written.
-	@Index(IndexName="sessionIdIndex")
+	@Index(IndexName = "sessionIdIndex")
 	public String sessionId;
-	
+
 }

@@ -1,7 +1,6 @@
 package me.yonatan.globalsdb.c2;
 
 import java.awt.BorderLayout;
-import java.awt.SplashScreen;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -20,7 +19,6 @@ import org.apache.catalina.startup.Tomcat;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
-import org.apache.taglibs.standard.extra.spath.SPathFilter;
 
 import chrriis.common.UIUtils;
 import chrriis.dj.nativeswing.swtimpl.NativeInterface;
@@ -32,7 +30,6 @@ public class Main {
 	 * @throws IOException
 	 */
 	public static void main(String[] args) throws IOException {
-		// TODO - splash screen
 		// TODO manual war input, when not found
 		// TODO proper logging
 
@@ -41,8 +38,6 @@ public class Main {
 		final int port = 2000 + (int) (Math.random() * (65500 - 2000));
 
 		final File tempWar = File.createTempFile("war", ".war");
-
-		final SplashScreen splashScreen = SplashScreen.getSplashScreen();
 
 		InputStream warInputStream = ClassLoader.getSystemResourceAsStream("war.war");
 		IOUtils.copy(warInputStream, new FileOutputStream(tempWar));
@@ -93,8 +88,6 @@ public class Main {
 			Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
 				@Override
 				public void run() {
-					System.out.println("Shutting down.");
-
 					try {
 						tomcat.stop();
 						tomcat.destroy();
@@ -102,8 +95,9 @@ public class Main {
 						e.printStackTrace();
 					}
 
+					System.out.println("Deleteing files");
 					FileUtils.deleteQuietly(tempWar);
-					FileUtils.deleteQuietly(tempUsers);
+					FileUtils.deleteQuietly(tempWar);
 				}
 			}));
 			NativeInterface.runEventPump();

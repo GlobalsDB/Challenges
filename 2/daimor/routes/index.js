@@ -26,7 +26,7 @@ exports.importFile = function(req, res){
 	if(file){
 		var filePath = file.path
 		var filename = file.filename
-		console.log('load uploaded file: ' + filename)
+		listLogs.logger('load uploaded file: ' + filename)
 		listLogs.add(filePath, false, filename);		
 	  	res.redirect('/logs');
 	} else {
@@ -46,12 +46,29 @@ exports.logs = function(req, res){
 		var logData = log.fetch('',max);
 		max += 50;
 		if( max > log.count) max = 0;
-		res.render('logfile', { title: 'View log file', log: log, logData: logData, max: max, canRefresh: log.canRefresh })
+		res.render('logfile', { title: 'View log file', log: log, logData: logData, max: max})
 	} else {
 		var logs = listLogs.fetch();
 		res.render('logs', { title: 'Show logs', logs : logs })
 	}
 };
+exports.logsFilter = function(req, res){
+	var id = req.body.id || null;
+	var filter = req.body.filter || null;
+	var log = listLogs.get(id);
+	if(log){		
+		if(filter) {
+			var logData = log.filter(filter);
+		} else {
+			var logData = log.fetch();
+		}
+		var max= 0;
+		res.render('logfile', { title: 'View log file', log: log, logData: logData, max: max})
+	} else {
+		var logs = listLogs.fetch();
+		res.render('logs', { title: 'Show logs', logs : logs })
+	}		
+}
 
 exports.logRefresh = function(req, res){
 	if(req.params.id) {
@@ -68,7 +85,7 @@ exports.logRefresh = function(req, res){
 
 exports.logsRemove = function(req, res){
 	var id = req.params.id;
-	console.log('remove id: '+id);
+	listLogs.logger('remove id: '+id);
 	listLogs.delete(id);
 	res.redirect('/logs');
 }

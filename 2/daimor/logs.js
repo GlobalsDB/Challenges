@@ -87,7 +87,7 @@ exports.listLogs = function() {
 		logs.forEach(function(el){
 			if(el.canRefresh) {
 				var fileLog = el.fileLog;
-				console.log('autoRefresh from: ' + fileLog);
+				this.logger('autoRefresh from: ' + fileLog);
 				el.clear();
 				var tail = spawn("tail", ["-f", fileLog]);
 				tail.stdout.setEncoding('utf8');
@@ -98,11 +98,41 @@ exports.listLogs = function() {
 					})
 				});
 			}
-		})
+		},this)
 		return
 		
 	}	
-
+	var logger = null;
+	this.logger = function(txt){
+		if(!logger) {
+			var logs = this.fetch();			
+			logs.forEach(function(el){
+				if(el.fileLog === 'logViewer'){
+					logger = el;
+					return;
+				}
+			})
+			if(!logger){
+				var id = db.increment(new req()).data;
+				var obj = new req({
+							subscripts: [id],
+							object: {
+								fileLog: 'logViewer' ,
+								fileName: 'logViewer',
+								canRefresh: false
+							}
+					});
+				db.update(obj, 'object');
+				logger = this.get(id);
+			}
+		}
+		if(logger){
+			var line = new Date().toJSON();
+			line += ': ' + txt;
+			logger.add(line);
+		}		
+	}
+	
 	var Log = function(log) {
 		var id = log.id;
 		var global = 'logs';
@@ -138,6 +168,17 @@ exports.listLogs = function() {
 			return result;
 		}
 		
+		this.filter = function(filter){
+			var logData = this.fetch();
+			var result = [];
+			logData.forEach(function(str){
+				if(str.search(filter)>0) {
+					result.push(str);
+				}
+			})
+			return result;
+		}
+		
 		this.clear = function(){
 			db.kill(new req());
 		}
@@ -145,7 +186,7 @@ exports.listLogs = function() {
 		this.refresh = function(){
 			if(!canRefresh) return false;
 			this.clear();
-			console.log('refresh from: ' + fileLog);
+			this.logger('refresh from: ' + fileLog);
 			var reader = new flr.FileLineReader(fileLog);
 			while (reader.hasNextLine()){
 				var str = reader.nextLine();

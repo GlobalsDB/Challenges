@@ -4,7 +4,7 @@ import com.uosipa.globalsdb.dao.UserDao;
 import com.uosipa.globalsdb.model.Service;
 import com.uosipa.globalsdb.model.User;
 import com.uosipa.globalsdb.web.page.ApplicationPage;
-import com.uosipa.globalsdb.web.page.logstable.LogsPage;
+import com.uosipa.globalsdb.web.page.logs.LogsPage;
 import com.uosipa.globalsdb.web.validation.StringLengthValidator;
 import org.nocturne.annotation.Action;
 import org.nocturne.annotation.Parameter;

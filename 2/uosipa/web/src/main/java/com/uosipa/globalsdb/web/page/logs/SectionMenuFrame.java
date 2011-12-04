@@ -1,4 +1,4 @@
-package com.uosipa.globalsdb.web.page.logstable;
+package com.uosipa.globalsdb.web.page.logs;
 
 import com.uosipa.globalsdb.model.Service;
 import com.uosipa.globalsdb.web.page.frame.ApplicationFrame;

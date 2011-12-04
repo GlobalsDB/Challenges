@@ -1,6 +1,6 @@
 package com.uosipa.globalsdb.web;
 
-import com.uosipa.globalsdb.web.page.logstable.LogsPage;
+import com.uosipa.globalsdb.web.page.logs.LogsPage;
 import com.uosipa.globalsdb.web.page.login.LoginPage;
 import com.uosipa.globalsdb.web.page.login.LogoutPage;
 import com.uosipa.globalsdb.web.page.login.RegistrationPage;

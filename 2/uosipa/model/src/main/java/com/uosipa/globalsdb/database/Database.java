@@ -63,17 +63,36 @@ public class Database {
             }
         }
 
-        //TODO proper locking
-        ValueList valueList;
-        if (nodeReference.exists()) {
-            valueList = nodeReference.getList();
-        } else {
-            valueList = connection.createList();
+        //connection.releaseAllLocks();
+        connection.startTransaction();
+        try {
+            //nodeReference.acquireLock(NodeReference.EXCLUSIVE_LOCK, NodeReference.LOCK_INCREMENTALLY);
+
+            ValueList valueList;
+            if (nodeReference.exists()) {
+                valueList = nodeReference.getList();
+            } else {
+                valueList = connection.createList();
+            }
+
+            System.out.println(valueList.length());
+            for (int i = 0; i < valueList.length(); ++i) {
+                System.out.println(valueList.getNextString());
+            }
+            System.out.println("NEW VALUE = " + value);
+
+            valueList.append(value);
+
+            System.out.println("AFTER APPENDING");
+            nodeReference.set(valueList);
+
+            //nodeReference.releaseLock(NodeReference.EXCLUSIVE_LOCK, NodeReference.RELEASE_AT_TRANSACTION_END);
+
+            connection.commit();
+        } catch (GlobalsException e) {
+            e.printStackTrace();
+            connection.rollback();
         }
-
-        valueList.append(value);
-
-        nodeReference.set(valueList);
     }
 
     public static ValueList getNodeValue(Object... subscripts) {

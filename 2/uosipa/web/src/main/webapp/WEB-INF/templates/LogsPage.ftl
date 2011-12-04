@@ -41,6 +41,43 @@
 </div>
 </#macro>
 
+<#macro timePicker>
+<div class="timepicker">
+    <label for="fromDate">From date</label>
+    <input class="date" type="text" id="fromDate" name="fromDate"/>
+    <label for="fromTime">time</label>
+    <input class="time" type="text" id="fromTime" name="fromTime"/>
+    <label for="toDate">to date</label>
+    <input class="date" type="text" id="toDate" name="toDate"/>
+    <label for="toTime">time</label>
+    <input class="time" type="text" id="toTime" name="toTime"/>
+</div>
+</#macro>
+
+<#macro logsPaginate>
+<div class="logs-filter" style="text-align: right;">
+    <span class="logs-paginate">
+        <#if prevId != -1>
+        <span><a
+                href="?action=applyFilter&showDebug=${showLogsConfig.showDebug?string("on", "off")}&showInfo=${showLogsConfig.showInfo?string("on", "off")}&showWarning=${showLogsConfig.showWarning?string("on", "off")}&showError=${showLogsConfig.showError?string("on", "off")}&limit=${showLogsConfig.onPage}&serverId=${showLogsConfig.serverId!}&threadId=${showLogsConfig.threadId!}&startFrom=${prevId?c}">‹
+            {{Prev}} ${showLogsConfig.onPage}</a></span>
+        <#else>
+        <span class="disabled">‹ {{Prev}} ${showLogsConfig.onPage}</span>
+        </#if>
+        <#if logsFirstId??>
+        <strong>${logsFirstId?c}-${logsLastId?c}</strong>
+        </#if>
+        <#if nextId != -1>
+        <span><a
+                href="?action=applyFilter&showDebug=${showLogsConfig.showDebug?string("on", "off")}&showInfo=${showLogsConfig.showInfo?string("on", "off")}&showWarning=${showLogsConfig.showWarning?string("on", "off")}&showError=${showLogsConfig.showError?string("on", "off")}&limit=${showLogsConfig.onPage}&serverId=${showLogsConfig.serverId!}&threadId=${showLogsConfig.threadId!}&startFrom=${nextId?c}">{{Next}} ${showLogsConfig.onPage}
+            ›</a></span>
+        <#else>
+        <span class="disabled">{{Next}} ${showLogsConfig.onPage} ›</span>
+        </#if>
+    </span>
+</div>
+</#macro>
+
 <#macro uploadLogFile>
 <div class="upload-log-file">
     <form enctype="multipart/form-data" action="" method="post">
@@ -57,6 +94,7 @@
 
 <@uploadLogFile/>
 <@logsFilter/>
+<#--<@timePicker/>-->
 
 <table cellpadding="0" cellspacing="0" class="logs list-table">
     <thead>
@@ -84,9 +122,17 @@
                     <#else>
                     <tr>
                 </#if>
-                <td>${log.date?string("yyyy-MM-dd HH:mm:ss.SSS")}</td>
+                <#if log.date??>
+                    <td>${log.date?string("yyyy-MM-dd HH:mm:ss.SSS")}</td>
+                    <#else>
+                        <td></td>
+                </#if>
                 <td>${log.severity}</td>
-                <td style="text-align: left;">${log.message}</td>
+                <#if log.message??>
+                    <td style="text-align: left;">${log.message}</td>
+                    <#else>
+                        <td style="text-align: left;"></td>
+                </#if>
             </tr>
             </#list>
             <#else>

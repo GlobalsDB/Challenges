@@ -2,7 +2,6 @@ package com.uosipa.globalsdb.logspusher;
 
 import com.uosipa.globalsdb.LogParser;
 import com.uosipa.globalsdb.dao.LogDao;
-import com.uosipa.globalsdb.dao.UserDao;
 import com.uosipa.globalsdb.database.Database;
 import com.uosipa.globalsdb.model.Service;
 import com.uosipa.globalsdb.model.User;
@@ -102,10 +101,6 @@ public class Main {
             throw new IllegalArgumentException("Unsupported file format " + cmd.getOptionValue("service"));
         }
 
-        user = UserDao.getInstance().authenticate(cmd.getOptionValue("login"), cmd.getOptionValue("password"));
-
-        if (user == null) {
-            throw new IllegalArgumentException("User not fount in database.");
-        }
+        user = new User(cmd.getOptionValue("login"), cmd.getOptionValue("password"));
     }
 }

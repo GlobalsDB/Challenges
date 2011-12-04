@@ -4,10 +4,10 @@ import com.intersys.globals.Connection;
 import com.intersys.globals.ConnectionContext;
 import com.intersys.globals.NodeReference;
 import com.intersys.globals.ProductInfo;
-import com.uosipa.globalsdb.model.Log;
-import com.uosipa.globalsdb.model.Service;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 /**
@@ -56,5 +56,42 @@ public class Database {
     }
 
     public static void addToNode(String value, String... subscripts) {
+        NodeReference nodeReference = connection.createNodeReference("logs");
+
+        for (String subscript : subscripts) {
+            nodeReference.appendSubscript(subscript);
+        }
+
+        nodeReference.set(value);
+    }
+
+    public static String getNodeValue(String... subscripts) {
+        NodeReference nodeReference = connection.createNodeReference("logs");
+        for (String subscript : subscripts) {
+            nodeReference.appendSubscript(subscript);
+        }
+
+        return nodeReference.getString();
+    }
+
+    public static List<NodeReference> getAllSubnodes(String... subscripts) {
+        NodeReference nodeReference = connection.createNodeReference("logs");
+
+        List<NodeReference> result = new ArrayList<NodeReference>();
+        for (String subscript : subscripts) {
+            nodeReference.appendSubscript(subscript);
+        }
+
+        for (int i = 0; i < nodeReference.getSubscriptCount(); ++i) {
+            NodeReference childNode = connection.createNodeReference("logs");
+            for (String subscript : subscripts) {
+                childNode.appendSubscript(subscript);
+            }
+            childNode.appendSubscript(nodeReference.getStringSubscript(i));
+
+            result.add(childNode);
+        }
+
+        return result;
     }
 }

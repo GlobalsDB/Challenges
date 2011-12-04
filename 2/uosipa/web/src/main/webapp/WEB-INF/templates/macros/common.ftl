@@ -31,7 +31,7 @@
     </div>
 
     <#if user??>
-    <#--<@frame name="menuFrame"/>-->
+    <@frame name="menuFrame"/>
     <@frame name="sectionMenuFrame"/>
     </#if>
 

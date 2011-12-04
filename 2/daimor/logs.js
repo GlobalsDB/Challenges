@@ -133,7 +133,7 @@ exports.listLogs = function() {
 		}		
 	}
 	
-	var Log = function(log) {
+	var Log = function(log) {		
 		var id = log.id;
 		var global = 'logs';
 		var fileLog = log.fileLog;
@@ -186,7 +186,6 @@ exports.listLogs = function() {
 		this.refresh = function(){
 			if(!canRefresh) return false;
 			this.clear();
-			this.logger('refresh from: ' + fileLog);
 			var reader = new flr.FileLineReader(fileLog);
 			while (reader.hasNextLine()){
 				var str = reader.nextLine();

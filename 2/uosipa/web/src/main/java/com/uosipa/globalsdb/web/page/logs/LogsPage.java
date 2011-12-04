@@ -1,8 +1,10 @@
-package com.uosipa.globalsdb.web.page.logstable;
+package com.uosipa.globalsdb.web.page.logs;
 
+import com.uosipa.globalsdb.LogParser;
 import com.uosipa.globalsdb.dao.LogDao;
 import com.uosipa.globalsdb.model.Log;
 import com.uosipa.globalsdb.model.Service;
+import com.uosipa.globalsdb.util.StringUtil;
 import com.uosipa.globalsdb.web.page.UserPage;
 import org.nocturne.annotation.Action;
 import org.nocturne.annotation.Parameter;
@@ -21,7 +23,7 @@ public class LogsPage extends UserPage {
 
     @Override
     public String getPageTitle() {
-        return service + " " + $("logs");
+        return $(service.toString()) + " " + $("logs");
     }
 
     @Override
@@ -41,6 +43,15 @@ public class LogsPage extends UserPage {
 
         put("logs", LogDao.getInstance().findLogs(getUser(), service, severities));
         put("showLogsConfig", new ShowLogsConfig(severities));
+    }
+
+    @Parameter(stripMode = Parameter.StripMode.NONE)
+    private String logFile;
+
+    @Action("uploadLogFile")
+    public void uploadLogFile() {
+        LogParser.parse(StringUtil.splitToLines(logFile), service);
+        abortWithReload();
     }
 
     @Action("applyFilter")
@@ -68,6 +79,8 @@ public class LogsPage extends UserPage {
                 parsedSeverities.add(Log.Severity.ERROR);
             } else if ("showFatal".equals(severity)) {
                 parsedSeverities.add(Log.Severity.FATAL);
+            } else if ("showUnknown".equals(severity)) {
+                parsedSeverities.add(Log.Severity.UNKNOWN);
             }
         }
 
@@ -92,6 +105,7 @@ public class LogsPage extends UserPage {
         private boolean showWarn;
         private boolean showError;
         private boolean showFatal;
+        private boolean showUnknown;
 
         private ShowLogsConfig() {
             // No operations.
@@ -104,6 +118,7 @@ public class LogsPage extends UserPage {
                 showWarn = true;
                 showError = true;
                 showFatal = true;
+                showUnknown = true;
             } else {
                 for (Log.Severity severity : severities) {
                     switch (severity) {
@@ -121,6 +136,9 @@ public class LogsPage extends UserPage {
                             break;
                         case FATAL:
                             showFatal = true;
+                            break;
+                        case UNKNOWN:
+                            showUnknown = true;
                             break;
                         default:
                             throw new IllegalStateException("Unexpected severity " + severity + ".");
@@ -147,6 +165,10 @@ public class LogsPage extends UserPage {
 
         public boolean isShowFatal() {
             return showFatal;
+        }
+
+        public boolean isShowUnknown() {
+            return showUnknown;
         }
     }
 }

@@ -53,3 +53,12 @@
 .logs .highlighted {
     background: #eaf3fd;
 }
+
+.upload-log-file {
+    margin-bottom: 2em;
+}
+
+.upload-log-file .button {
+    width: 100px;
+    height: 22px;
+}

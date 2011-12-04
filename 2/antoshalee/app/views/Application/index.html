@@ -1,4 +1,94 @@
 #{extends 'main.html' /}
 #{set title:'Home' /}
 
-#{welcome /}
+#{set 'moreStyles'}
+	#{stylesheet 'bootstrap.min.css' /}
+#{/set}
+
+#{set 'moreScripts'}
+    #{script 'eventLogger.js' /}
+#{/set}
+
+
+
+<div>
+
+<button class="btn" id="start_highload" >Start highload</button>
+
+<h1 id="h1" class='random_item'>Big H1 header. Click me and I will appear in monitor feed.</h1>
+</div>
+<h2 id="h2_id" class='random_item'>I'm not so big H2 header. But you can click me too!</h2>
+<h3 id="h3_id" class='random_item'>H3 also wants to be in feed</h3>
+
+
+
+<table class='bordered-table'>
+	<tr>
+		<th id='th-1' class='random_item'>I am TH 1</th>
+		<th id='th-2' class='random_item'>I am TH 2. Click me first!</th>
+	</tr>
+	<tr>
+		<td>
+			<ul>
+				<li class='random_item' id="li-1">Clickable li 1</li>
+				<li class='random_item' id="li-2">Clickable li 2</li>
+				<li class='random_item' id="li-3">Clickable li 3</li>
+				<li class='random_item' id="li-4">Clickable li 4</li>
+				<li class='random_item' id="li-5">Clickable li 5</li>
+				<li class='random_item' id="li-6">Clickable li 6</li>
+				<li class='random_item' id="li-7">Clickable li 7</li>
+			</ul>
+		</td>
+		<td>
+			<form>
+				<fieldset>
+					<div class="clearfix">
+						<label id="label-1" class='random_item'>Clickable label 1</label>
+						<div class="input">
+							<input type="text" id="text-1" value="Clickable text input 1" class='random_item' />	
+						</div>
+					</div>
+					<div class="clearfix">
+						<label id="label-2" class='random_item'>Clickable label 2</label>
+						<div class="input">
+							<input type="text" id="text-2" value="Clickable text input 2" class='random_item' />	
+						</div>
+					</div>
+					<div class="clearfix">
+						<label id="label-3" class='random_item'>Clickable label 3</label>
+						<div class="input">
+							<input type="text" id="text-3" value="Clickable text input 3" class='random_item' />	
+						</div>
+					</div>
+				</fieldset>
+			</form>
+		</td>
+	</tr>
+</table>
+
+<div class="well" style="padding: 14px 19px;" id='buttons_container'>
+	Important buttons container. Click me or any important button. See you in feed.<br/ ><br />
+
+	<button class="btn success random_item" id="button_success">Important Success button</button>
+
+	<button class="btn primary random_item" id='button_primary'>Important Primary button</button> 
+
+	<button class="btn danger random_item" id='button_danger'>Important Danger button</button>
+	
+	<button class="btn info random_item" id='button_info'>Important Info button</button>
+	
+ </div>
+ 
+ <div id="red_div" class='random_item' style="width: 110px; height:110px; background: #F56E6E; font-size: 16px; float: left; padding: 5px 5px;">
+	I am Red Div. I know you want to click me because i am beautiful.
+</div>
+
+<div id="green_div" class='random_item' style="width: 110px; height:110px; background: #A4DEA2; font-size: 16px;float: left; padding: 5px 5px;">
+	I am Green Div. I know you want to click me because i am healthy.
+</div>
+
+<div id="blue_div" class='random_item' style="width: 110px; height:110px; background: #7DC8FA; font-size: 16px;float: left; padding: 5px 5px;">
+	I am Blue Div. I know you want to click me because i am blue.
+</div>
+
+

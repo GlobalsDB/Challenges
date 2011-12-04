@@ -31,15 +31,31 @@
                 <#else>
                     <input type="checkbox" name="showFatal"/>{{Fatal}}
             </#if>
+            <#if showLogsConfig.showUnknown>
+                <input type="checkbox" name="showUnknown" checked/>{{Unknown}}
+                <#else>
+                    <input type="checkbox" name="showUnknown"/>{{Unknown}}
+            </#if>
         </span>
+    </form>
+</div>
+</#macro>
 
-    <#--<input type="submit" value="<@caption>Display</@caption>"/>-->
+<#macro uploadLogFile>
+<div class="upload-log-file">
+    <form enctype="multipart/form-data" action="" method="post">
+        <span>{{Upload log file}}:</span>
+
+        <input type="hidden" name="action" value="uploadLogFile"/>
+        <input type="file" name="logFile"/>
+        <input type="submit" class="button" value="{{Upload}}"/>
     </form>
 </div>
 </#macro>
 
 <@common.page>
 
+<@uploadLogFile/>
 <@logsFilter/>
 
 <table cellpadding="0" cellspacing="0" class="logs list-table">
@@ -63,6 +79,8 @@
                     <tr class="error">
                     <#elseif log.severity == "FATAL">
                     <tr class="error">
+                    <#elseif log.severity == "UNKNOWN">
+                    <tr class="unknown">
                     <#else>
                     <tr>
                 </#if>

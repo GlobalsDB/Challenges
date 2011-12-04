@@ -5,12 +5,38 @@
         <title>#{get 'title' /}</title>
         <meta charset="${_response_encoding}">
         <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/main.css'}">
+       
         #{get 'moreStyles' /}
         <link rel="shortcut icon" type="image/png" href="@{'/public/images/favicon.png'}">
-        <script src="@{'/public/javascripts/jquery-1.5.2.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+        <script src="@{'/public/javascripts/jquery-1.6.2.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
         #{get 'moreScripts' /}
     </head>
     <body>
-        #{doLayout /}
+	    <div class="topbar">
+	      <div class="fill">
+	        <div class="container">
+	          <a class="brand" href="#">Clickstream globals monitor</a>
+	          <ul class="nav">
+				<li #{if request.action == "Application.index"} class="active" #{/if}>#{a @Application.index()}"Click me" app#{/a}</li>
+	            <li #{if request.action == "StreamEvents.index"} class="active" #{/if} >#{a @StreamEvents.index()}Monitor#{/a}</li>
+	            <li #{if request.action == "StreamEvents.statistics"} class="active" #{/if} >#{a @StreamEvents.statistics()}Statistics#{/a}</li>
+	          </ul>        
+	        </div>
+	      </div>
+	    </div>
+	
+	    <div class="container">
+	
+	      <div class="content">
+	        <div class="page-header">
+	          <h1>Page name <small>Supporting text or tagline</small></h1>
+	        </div>
+	        <div class="row">
+	          <div class="span16">
+	            #{doLayout /}
+	          </div>
+	        </div>
+	      </div>
+	    </div> 
     </body>
 </html>

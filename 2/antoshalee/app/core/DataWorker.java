@@ -8,6 +8,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method; 
 import com.intersys.globals.NodeReference;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -16,11 +17,11 @@ import java.util.logging.Logger;
 
 import support.LogWriter;
 public class DataWorker {
+
     private HashMap<String, Field> fieldsMap;
     private String SchemaClassName;
     
     private static DataWorker dataWorker;
-    private LogWriter log;
     private Connection connection;
     public static DataWorker Instance()
     {
@@ -36,6 +37,11 @@ public class DataWorker {
     	return persistentClass.getSimpleName().concat("I");
     }
     
+    public static String GetDataGlobalName(Class persistentClass)
+    {
+    	return persistentClass.getSimpleName().concat("D");
+    }
+    
     public static NodeReference GetNodeReference(String nodeName)
     {
     	return Instance().connection.createNodeReference(nodeName);
@@ -45,21 +51,12 @@ public class DataWorker {
     public static DataWorker Init()
     {
     	DataWorker worker = new DataWorker();
-    	worker.log = new LogWriter();
-    	worker.log.FileName = "c:\\temp\\javaLog.txt";
-    	
     	worker.connection = ConnectionManager.Instance().getConnection();
-         
     	return worker;
     }
     
     public void UpdateIndicesOnCreate(Persistent obj)
     {
-    }
-    
-    private void UpdateIndexForField(Persistent obj, Field field) throws IllegalAccessException
-    {
-    	UpdateIndexForField(obj, field, null);
     }
     
     private void UpdateIndexForField(Persistent obj, Field field, Persistent oldObj) 
@@ -83,8 +80,7 @@ public class DataWorker {
         }
         catch (Exception ex)
         {
-            log.WriteToFile(ex.toString(), true);
-            //throw ex;
+           ex.printStackTrace();
         }
         
         if (oldObj != null)
@@ -92,7 +88,7 @@ public class DataWorker {
         	Object oldVal = field.get(oldObj);
         	if (oldVal != null)
         	{
-        		String val = ConvertValueForIndexing(oldVal);
+        		Object val = ConvertValueForIndexing(oldVal);
 	        	if (node.exists(indexName, val, oldObj.Id))
 	        		node.kill(indexName, val, oldObj.Id);
         	}
@@ -103,26 +99,37 @@ public class DataWorker {
         	Object newVal = field.get(obj);
         	if (newVal != null)
         	{
-        		String val = ConvertValueForIndexing(newVal);
+        		Object val = ConvertValueForIndexing(newVal);
         		if (!node.exists(indexName, val, obj.Id))
         			node.set("", indexName, val, obj.Id);
         	}
         }
     }
     
-    public static String ConvertValueForIndexing(Object value)
+    public static Object ConvertValueForIndexing(Object value)
     {
     	if (value instanceof String)
-    		return " " + value.toString().toUpperCase();
+    	{
+    		//System.out.println(">"+value.toString().toUpperCase()+"<");
+    		
+    		String str = " ".concat(value.toString().toUpperCase());
+    		//System.out.println(">"+str+"<");
+    		if (str.length() > 500)
+    			return str.substring(0, 500);
+    		return str;
+    	}
     	else if (value instanceof Date)
     	{
-    		return value.toString();
+    		Date val = (Date) value;
+    		return " ".concat(DateHelper.DateToString(val));
     	}
     	else
     	{
-    		return value.toString();
+    		return value;
     	}
     }
+    
+    
     
     public void UpdateIndicesOnUpdate(Persistent oldObj, Persistent obj)
     {
@@ -143,39 +150,7 @@ public class DataWorker {
     			node.kill(annotation.IndexName(), ConvertValueForIndexing(field.get(obj).toString()), obj.Id);
     	}
     }
-        
-    public void SetNodeSubscriptField(Field field, Persistent obj, NodeReference node)
-    {
-    	Long Id = obj.Id;
-    	String fieldName = field.getName();
-    	try {
-			Object fieldValue = field.get(obj);
-			 if (fieldValue instanceof java.lang.String)
-			 {
-			     node.set(fieldValue.toString(), Id, fieldName);
-			 }
-			 else if (fieldValue instanceof java.lang.Long)
-		     {
-		         long longValue = field.getLong(obj);
-		         node.set(longValue, Id, fieldName);
-		     }
-		     else if (fieldValue instanceof java.util.Date)
-		     {
-	             Date dateValue = (Date)  fieldValue;
-	             String strValue = dateValue.toGMTString();
-	             node.set(strValue, obj.Id, fieldName);
-	         }
-	    } 
-    	//catch ( IllegalArgumentException | IllegalAccessException e)
-    	catch(Exception e) 
-    	{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			log.WriteToFile(e.getMessage(), true);
-		}
 
-    
-    }
     
     public Persistent SaveObject(Persistent obj) throws IllegalAccessException
     {
@@ -187,8 +162,7 @@ public class DataWorker {
         }
         catch (Exception ex)
         {
-            log.WriteToFile(ex.toString(), true);
-            //throw ex;
+        	ex.printStackTrace();
         }
         
         Persistent oldObj = null;
@@ -201,9 +175,6 @@ public class DataWorker {
         else
         {
         	oldObj = LoadObjectById(obj.Id, obj);
-        	//node.setSubscriptCount(0);
-        	//znode .setSubscriptCount((int)obj.Id);
-            //node.appendSubscript(obj.Id);
         }
         
         Class info = obj.getClass();
@@ -214,7 +185,6 @@ public class DataWorker {
         { 
         	field = fields[i];
             FieldSetter.SetFieldValue(obj, field, node);
-            //SetNodeSubscriptField(field, obj, node);
             UpdateIndexForField(obj, field, oldObj);
         }
         return obj;
@@ -251,28 +221,7 @@ public class DataWorker {
             {
                field = fieldsMap.get(subscript);
                nodeValue = node.getObject(subscript);
-               
                FieldGetter.GetFieldValue(obj, field, nodeValue, subscript, node);
-               /*
-               if (nodeValue instanceof java.lang.Long)
-               {
-                   Long nodeLongValue = node.getLong(subscript);
-                   field.setLong(obj, nodeLongValue);
-               }
-               else
-               {
-                   if(field.getType() == java.util.Date.class)
-                   {
-                       Date dateValue = new Date(nodeValue.toString());
-                        
-                        field.set(obj, dateValue);
-                   }
-                   else
-                    {
-                   
-                        field.set(obj, nodeValue);
-                    }
-               }*/
             }
          }while (subscript.length() > 0);
          
@@ -297,9 +246,6 @@ public class DataWorker {
             fieldsMap.put(fields[i].getName(), fields[i]);
         }
     }
-	    
 
-	    
-	
 
 }

@@ -1,0 +1,104 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<name>Standalone runner module</name>
+	<parent>
+		<groupId>me.yonatan.globals</groupId>
+		<artifactId>c2</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>runner</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+
+	<properties>
+		<tomcat.version>7.0.23</tomcat.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<artifactId>war</artifactId>
+			<groupId>me.yonatan.globals</groupId>
+			<version>0.0.1-SNAPSHOT</version>
+			<type>war</type>
+			<scope>runtime</scope>
+		</dependency>
+
+		<dependency>
+			<artifactId>tomcat-catalina</artifactId>
+			<groupId>org.apache.tomcat</groupId>
+		</dependency>
+		<dependency>
+			<artifactId>tomcat-jasper</artifactId>
+			<groupId>org.apache.tomcat</groupId>
+		</dependency>
+		<dependency>
+			<artifactId>tomcat-embed-core</artifactId>
+			<groupId>org.apache.tomcat.embed</groupId>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>dj</groupId>
+			<artifactId>DJNAtiveSwing-SWTCore</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>dj</groupId>
+			<artifactId>DJNAtiveSwing-SWT</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>dj</groupId>
+			<artifactId>DJNativeSwing-SWTAPI</artifactId>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/classes</outputDirectory>
+							<overWriteReleases>false</overWriteReleases>
+							<overWriteSnapshots>false</overWriteSnapshots>
+							<overWriteIfNewer>true</overWriteIfNewer>
+							<stripVersion>true</stripVersion>
+							<includeTypes>war</includeTypes>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- <plugin> -->
+			<!-- <artifactId>maven-assembly-plugin</artifactId> -->
+			<!-- <configuration> -->
+			<!-- <descriptorRefs> -->
+			<!-- <descriptorRef>jar-with-dependencies</descriptorRef> -->
+			<!-- </descriptorRefs> -->
+			<!-- < -->
+			<!-- </configuration> -->
+			<!-- </plugin> -->
+		</plugins>
+	</build>
+
+</project>

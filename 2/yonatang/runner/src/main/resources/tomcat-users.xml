@@ -1,0 +1,4 @@
+<tomcat-users>
+<role rolename="ndbjsadmin"/>
+<user name="PJWK11" password="" roles="tomcat,ndbjsadmin" />
+</tomcat-users>

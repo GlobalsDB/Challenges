@@ -36,10 +36,7 @@ public class LogsPage extends UserPage {
 
     @Override
     public void action() {
-        Log.Severity[] severities = getSession("logs-" + service, Log.Severity[].class);
-        if (severities == null) {
-            severities = Log.Severity.values();
-        }
+        Log.Severity[] severities = getSeveritiesFilter();
 
         put("logs", LogDao.getInstance().findLogs(getUser(), service, severities));
         put("showLogsConfig", new ShowLogsConfig(severities));
@@ -50,8 +47,17 @@ public class LogsPage extends UserPage {
 
     @Action("uploadLogFile")
     public void uploadLogFile() {
-        LogParser.parse(StringUtil.splitToLines(logFile), service);
+        LogDao.getInstance().addLogs(getUser(), LogParser.parse(StringUtil.splitToLines(logFile), service));
         abortWithReload();
+    }
+
+    private Log.Severity[] getSeveritiesFilter() {
+        Log.Severity[] severities = getSession("logs-" + service, Log.Severity[].class);
+        if (severities == null) {
+            severities = Log.Severity.values();
+        }
+
+        return severities;
     }
 
     @Action("applyFilter")

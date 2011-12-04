@@ -2,7 +2,7 @@ package com.uosipa.globalsdb.logspusher;
 
 import com.uosipa.globalsdb.LogParser;
 import com.uosipa.globalsdb.dao.LogDao;
-import com.uosipa.globalsdb.model.Log;
+import com.uosipa.globalsdb.dao.UserDao;
 import com.uosipa.globalsdb.model.Service;
 import com.uosipa.globalsdb.model.User;
 import org.apache.commons.cli.*;
@@ -10,7 +10,7 @@ import org.apache.commons.cli.*;
 import java.io.*;
 
 public class Main {
-    private static File file;
+    private static FileInputStream fileInputStream;
     private static Service service;
     private static User user;
 
@@ -21,19 +21,12 @@ public class Main {
     }
 
     private static void run() throws IOException {
-        FileInputStream fileInputStream;
-        try {
-            fileInputStream = new FileInputStream(file);
-        } catch (FileNotFoundException e) {
-            throw new IllegalArgumentException("Can't read file: " + file.getName());
-        }
-
         BufferedReader reader = new BufferedReader(new InputStreamReader(fileInputStream));
 
         StringBuilder log = new StringBuilder();
         String logLine;
         //noinspection InfiniteLoopStatement
-        exit:
+        //exit:
         while (true) {
             while ((logLine = reader.readLine()) == null) {
                 try {
@@ -41,7 +34,7 @@ public class Main {
                 } catch (InterruptedException ignored) {
                 }
 
-                break exit;
+                // break exit;
             }
 
             if (LogParser.isNewLogStart(logLine, service)) {
@@ -61,9 +54,9 @@ public class Main {
             log.append(logLine);
         }
 
-        for (Log logg : LogDao.getInstance().findLogs(user, service, Log.Severity.FATAL)) {
+        /*for (Log logg : LogDao.getInstance().findLogs(user, service, Log.Severity.FATAL)) {
             System.out.println(logg.getDate() + " " + logg.getMessage());
-        }
+        }*/
     }
 
     public static void parseArguments(String[] args) throws ParseException {
@@ -84,8 +77,11 @@ public class Main {
             return;
         }
 
-        file = new File(cmd.getOptionValue("log-file"));
-
+        try {
+            fileInputStream = new FileInputStream(new File(cmd.getOptionValue("log-file")));
+        } catch (FileNotFoundException e) {
+            throw new IllegalArgumentException("Can't read log file.");
+        }
 
         if ("httpd".equals(cmd.getOptionValue("service"))) {
             service = Service.HTTPD;
@@ -95,8 +91,10 @@ public class Main {
             throw new IllegalArgumentException("Unsupported file format " + cmd.getOptionValue("service"));
         }
 
-        user = new User(cmd.getOptionValue("login"), cmd.getOptionValue("password"));
+        user = UserDao.getInstance().authenticate(cmd.getOptionValue("login"), cmd.getOptionValue("password"));
 
-        //TODO check password
+        if (user == null) {
+            throw new IllegalArgumentException("User not fount in database.");
+        }
     }
 }

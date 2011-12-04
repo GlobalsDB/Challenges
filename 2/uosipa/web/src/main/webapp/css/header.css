@@ -1,0 +1,28 @@
+.header {
+    height: 5em;
+    padding-bottom: 2em;
+}
+
+.header .header-left {
+    float: left;
+}
+
+.header .header-right {
+    background: url(../image/logo-trans.png);
+    text-align: right;
+    height: 51px;
+}
+
+.header .header-right .top-menu {
+    padding-top: 24px;
+    padding-right: 10px;
+    color: white;
+}
+
+.header .header-right .top-menu a:link, .header .header-right .top-menu a:visited {
+    color: white;
+}
+
+.header .header-right .top-menu a:hover {
+    color: beige;
+}

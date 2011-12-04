@@ -1,0 +1,135 @@
+html {
+    height: 100%;
+}
+
+body {
+    overflow-y: scroll;
+    font-family: Arial, Helvetica, sans-serif;
+    min-width: 710px;
+}
+
+h1 {
+    font-size: 1.5em;
+}
+
+h2 {
+    font-size: 1.5em;
+}
+
+h3 {
+    font-size: 1.2em;
+}
+
+h4 {
+    font-size: 1.1em;
+}
+
+a:link, a:visited {
+    color: #0066CC;
+}
+
+a:hover {
+    color: #CC6600;
+}
+
+a {
+    outline: none medium;
+}
+
+a, .nowrap {
+    white-space: nowrap;
+}
+
+a img {
+    border: 0 none;
+}
+
+.mainbody {
+    padding: 0.5em;
+}
+
+.content {
+    padding: 2em 3em 10em;
+}
+
+.field-error {
+    color: red;
+    font-size: 75%;
+    position: relative;
+    display: block;
+    width: 100%;
+    top: -7px;
+}
+
+.list-table {
+    border: 1px solid #c5d7ef;
+    border-collapse: collapse;
+    width: 100%;
+    text-align: center;
+}
+
+.list-table caption {
+    border: 1px solid #c5d7ef;
+    background: #e5ecf9;
+}
+
+.list-table caption {
+    padding: 3px 5px;
+    text-align: left;
+}
+
+.list-table th, .list-table td {
+    padding: .35em 1em .25em .35em;
+    margin: 0;
+}
+
+.list-table thead th {
+    text-align: center;
+    font-weight: bold;
+    background: #c5d7ef;
+    vertical-align: middle;
+}
+
+.list-table tfoot tr td {
+    border-top: 1px solid #c5d7ef;
+    background-color: #e5ecf9;
+}
+
+.list-table td {
+    border-top: 1px solid #c5d7ef;
+    border-bottom: 1px solid #c5d7ef;
+}
+
+.common-form .field-names {
+    width: 8em;
+    text-align: right;
+    padding: 0.5em;
+}
+
+.common-form .textbox {
+    width: 200px;
+}
+
+.common-form .button {
+    text-align: center;
+}
+
+.common-form .button input {
+    margin: 1em 0 0;
+    width: 80px;
+}
+
+.field-notice {
+    position: relative;
+    color: #777;
+    font-size: 11px;
+    position: relative;
+    display: block;
+    width: 100%;
+    top: -5px;
+    text-align: left;
+}
+
+.error-message {
+    color: red;
+}

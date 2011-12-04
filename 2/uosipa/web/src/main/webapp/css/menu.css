@@ -1,14 +1,20 @@
+.menu-sections {
+    height: 28px;
+}
+
 .menu-sections ul {
     clear: both;
     background: url(../image/menu/navbar_bg.png);
     text-align: center;
     width: 100%;
+    height: 100%;
 }
 
 .menu-sections li {
     float: left;
     border-right: 1px solid #59d;
     position: relative;
+    background: url(../image/menu/navbar_bg.png);
 }
 
 .menu-sections li a, .topTab {

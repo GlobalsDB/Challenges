@@ -1,9 +1,10 @@
 package com.uosipa.globalsdb.web;
 
-import com.uosipa.globalsdb.web.page.logs.LogsPage;
 import com.uosipa.globalsdb.web.page.login.LoginPage;
 import com.uosipa.globalsdb.web.page.login.LogoutPage;
 import com.uosipa.globalsdb.web.page.login.RegistrationPage;
+import com.uosipa.globalsdb.web.page.logs.LogsPage;
+import com.uosipa.globalsdb.web.page.refreshable.RefreshableLogsPage;
 import org.nocturne.link.Links;
 import org.nocturne.main.LinkedRequestRouter;
 
@@ -16,5 +17,6 @@ public class ApplicationRequestRouter extends LinkedRequestRouter {
         Links.add(LogoutPage.class);
         Links.add(RegistrationPage.class);
         Links.add(LogsPage.class);
+        Links.add(RefreshableLogsPage.class);
     }
 }

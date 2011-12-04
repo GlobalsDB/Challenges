@@ -41,21 +41,8 @@
 </div>
 </#macro>
 
-<#macro uploadLogFile>
-<div class="upload-log-file">
-    <form enctype="multipart/form-data" action="" method="post">
-        <span>{{Upload log file}}:</span>
-
-        <input type="hidden" name="action" value="uploadLogFile"/>
-        <input type="file" name="logFile"/>
-        <input type="submit" class="button" value="{{Upload}}"/>
-    </form>
-</div>
-</#macro>
-
 <@common.page>
 
-<@uploadLogFile/>
 <@logsFilter/>
 
 <table cellpadding="0" cellspacing="0" class="logs list-table">

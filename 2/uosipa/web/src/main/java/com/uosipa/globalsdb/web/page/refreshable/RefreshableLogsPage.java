@@ -1,4 +1,4 @@
-package com.uosipa.globalsdb.web.page.logs;
+package com.uosipa.globalsdb.web.page.refreshable;
 
 import com.uosipa.globalsdb.LogParser;
 import com.uosipa.globalsdb.dao.LogDao;
@@ -17,8 +17,8 @@ import java.util.List;
 /**
  * @author Dmitry Levshunov (levshunov.d@gmail.com)
  */
-@Link("logs/{service}")
-public class LogsPage extends UserPage {
+@Link("refreshable-logs/{service}")
+public class RefreshableLogsPage extends UserPage {
     @Parameter
     private Service service;
 
@@ -39,17 +39,8 @@ public class LogsPage extends UserPage {
     public void action() {
         Log.Severity[] severities = getSeveritiesFilter();
 
-        put("logs", LogDao.getInstance().findLogs(getUser(), service, severities));
+        put("logs", LogDao.getInstance().findLastLogs(500, getUser(), service, severities));
         put("showLogsConfig", new ShowLogsConfig(severities));
-    }
-
-    @Parameter(stripMode = Parameter.StripMode.NONE)
-    private String logFile;
-
-    @Action("uploadLogFile")
-    public void uploadLogFile() {
-        LogDao.getInstance().addLogs(getUser(), LogParser.parse(StringUtil.splitToLines(logFile), service));
-        abortWithReload();
     }
 
     private Log.Severity[] getSeveritiesFilter() {

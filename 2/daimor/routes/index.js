@@ -22,8 +22,7 @@ exports.importForm = function(req, res){
 };
 
 exports.importFile = function(req, res){
-
-	var file = req.body.upload
+	var file = req.body.upload || req.files.upload || null;
 	if(file){
 		var filePath = file.path
 		var filename = file.filename
@@ -46,7 +45,7 @@ exports.logs = function(req, res){
 		max = parseInt(max);
 		var logData = log.fetch('',max);
 		max += 50;
-		if( max >= log.count) max = 0;
+		if( max > log.count) max = 0;
 		res.render('logfile', { title: 'View log file', log: log, logData: logData, max: max, canRefresh: log.canRefresh })
 	} else {
 		var logs = listLogs.fetch();

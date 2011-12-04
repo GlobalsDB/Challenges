@@ -1,6 +1,7 @@
 package me.yonatan.globalsdb.c2;
 
 import java.awt.BorderLayout;
+import java.awt.SplashScreen;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -19,6 +20,7 @@ import org.apache.catalina.startup.Tomcat;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.taglibs.standard.extra.spath.SPathFilter;
 
 import chrriis.common.UIUtils;
 import chrriis.dj.nativeswing.swtimpl.NativeInterface;
@@ -39,7 +41,9 @@ public class Main {
 		final int port = 2000 + (int) (Math.random() * (65500 - 2000));
 
 		final File tempWar = File.createTempFile("war", ".war");
-		System.out.println(ClassLoader.getSystemResource("war.war"));
+
+		final SplashScreen splashScreen = SplashScreen.getSplashScreen();
+
 		InputStream warInputStream = ClassLoader.getSystemResourceAsStream("war.war");
 		IOUtils.copy(warInputStream, new FileOutputStream(tempWar));
 
@@ -69,14 +73,15 @@ public class Main {
 		String contextPath = "/app";
 		host.setAppBase("");
 		try {
+
 			tomcat.addWebapp(contextPath, appBase);
 			tomcat.start();
 			System.out.println("Starting desktop");
 			UIUtils.setPreferredLookAndFeel();
+			final JFrame frame = new JFrame("Logfile viewer");
 			NativeInterface.open();
 			SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
-					JFrame frame = new JFrame("Logfile viewer");
 					frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 					frame.getContentPane().add(new Window("http://localhost:" + port + "/app/viewer.jsf"), BorderLayout.CENTER);
 					frame.setSize(800, 600);
@@ -86,15 +91,17 @@ public class Main {
 			});
 
 			Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
-
 				@Override
 				public void run() {
 					System.out.println("Shutting down.");
+
 					try {
 						tomcat.stop();
-					} catch (LifecycleException e) {
+						tomcat.destroy();
+					} catch (Exception e) {
 						e.printStackTrace();
 					}
+
 					FileUtils.deleteQuietly(tempWar);
 					FileUtils.deleteQuietly(tempUsers);
 				}

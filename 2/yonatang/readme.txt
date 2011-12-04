@@ -12,7 +12,9 @@ Can be run as a desktop application, or deployed into a Servlet container.
 
 Running the application:
 ========================
-Download it from https://github.com/GlobalsDB/Challenges/raw/master/2/yonatang/runner.jar
+Get the runner.jar file, by one of the following ways:
+1. Pull the project, and get the runner.jar file from the root (Challenges/master/2/yonatang/runner.jar), or 
+2. Build the application (mvn clean install), and get the jar file from runner/target/runner.jar
 Then:
 > java -jar runner.jar
 
@@ -21,10 +23,6 @@ You can generate fake data, to test the application. In order to generate data:
 
 Please notice that in case the file size is > 10mb, the process of loading might take several mimutes.
 You can find sample data file with 1k and 100k log files at https://github.com/GlobalsDB/Challenges/raw/master/2/yonatang/sample-data.zip
-
-Building the application
-========================
-> mvn clean install
 
 The keen eyed user might see there are two modules:
 1. A WAR (Web application ARchive), which contains the actual solution. Can be deployed seperatly into tomcat-7 container, and used as a web-application.

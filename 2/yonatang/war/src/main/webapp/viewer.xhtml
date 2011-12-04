@@ -17,13 +17,6 @@
 </style>
 </h:head>
 <h:body>
-	<script type="text/javascript">  
-    function handlePollComplete(xhr, status, args) {
-        console.log("Done!",status,args);
-    }  
-
-    
-</script>
 	<h:form id="menuForm">
 		<p:menubar>
 			<p:submenu label="File">
@@ -44,7 +37,7 @@
 				<p:tab title="#{logTable.logFile.name}" closable="true">
 					<p:remoteCommand name="refreshTable" update="logTable"></p:remoteCommand>
 					<p:poll async="true" listener="#{logTable.pollForChanges}"
-						interval="10" oncomplete="handlePollComplete(xhr, status, args)"></p:poll>
+						interval="10"></p:poll>
 
 					<p:hotkey bind="right"
 						handler="$(logTableWidget.getPaginator().nextLink[0]).click();"></p:hotkey>
@@ -165,10 +158,8 @@
 			</h:panelGroup>
 			<h:panelGroup style="padding-top:20px;" layout="block">
 				<p:commandButton id="openButton" value="Open" ajax="true"
-					widgetVar="openButtonWidget"
-					action="#{fileImportBean.openLocal()}"
-					onstart="return startLoading();"
-					update="tabsForm"
+					widgetVar="openButtonWidget" action="#{fileImportBean.openLocal()}"
+					onstart="return startLoading();" update="tabsForm"
 					onsuccess="localFileDialog.hide();" oncomplete="stopLoading();"></p:commandButton>
 				<p:commandButton id="closeButton" value="Cancel"
 					widgetVar="closeButtonWidget" onclick="localFileDialog.hide();" />

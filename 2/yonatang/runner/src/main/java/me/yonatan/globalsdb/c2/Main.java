@@ -16,23 +16,24 @@ import org.apache.catalina.Server;
 import org.apache.catalina.core.AprLifecycleListener;
 import org.apache.catalina.realm.MemoryRealm;
 import org.apache.catalina.startup.Tomcat;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Option;
+import org.apache.commons.cli.OptionBuilder;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.PosixParser;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 
 import chrriis.common.UIUtils;
 import chrriis.dj.nativeswing.swtimpl.NativeInterface;
 
 public class Main {
 
-	/**
-	 * @param args
-	 * @throws IOException
-	 */
-	public static void main(String[] args) throws IOException {
-		// TODO manual war input, when not found
-		// TODO proper logging
-
+	public static void runTomcat() throws IOException {
 		final Tomcat tomcat = new Tomcat();
 
 		final int port = 2000 + (int) (Math.random() * (65500 - 2000));
@@ -105,8 +106,44 @@ public class Main {
 		} catch (LifecycleException e) {
 			e.printStackTrace();
 		} catch (ServletException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * @param args
+	 * @throws IOException
+	 */
+	@SuppressWarnings("static-access")
+	public static void main(String[] args) throws IOException {
+		Options options = new Options();
+		options.addOption("h", "help", false, "print this message");
+		options.addOption(OptionBuilder.hasArgs(3).withValueSeparator(' ').withDescription("Generate log file").withArgName("filename")
+				.create("generate"));
+		options.addOption(OptionBuilder.hasArg().withDescription("Amount of records (default value is 5000)").withArgName("records")
+				.create("records"));
+
+		CommandLineParser parser = new PosixParser();
+		try {
+			CommandLine line = parser.parse(options, args);
+			if (line.hasOption('h')) {
+				HelpFormatter formatter = new HelpFormatter();
+				formatter.printHelp("runner", options);
+				System.exit(0);
+			} else if (line.hasOption("generate")) {
+				String filename = line.getOptionValue("generate");
+				int records = 5000;
+				if (line.hasOption("records")) {
+					records = NumberUtils.toInt(line.getOptionValue("records"), 5000);
+				}
+				System.out.println("Generating to file " + filename + " " + records + " records");
+				LogGenerator.generate(records, filename);
+				System.exit(0);
+			} else {
+				runTomcat();
+			}
+
+		} catch (Exception e) {
 		}
 
 	}

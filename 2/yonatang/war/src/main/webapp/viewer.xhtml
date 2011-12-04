@@ -21,8 +21,9 @@
 		<p:menubar>
 			<p:submenu label="File">
 				<p:menuitem value="Open" onclick="localFileDialog.show();" />
-				<p:separator />
-				<p:menuitem value="Quit" />
+				<p:separator rendered="#{logTableTabsBean.canKill}" />
+				<p:menuitem value="Quit" action="#{logTableTabsBean.kill()}"
+					rendered="#{logTableTabsBean.canKill}" />
 			</p:submenu>
 			<p:menuitem value="Help" onclick="helpDialog.show();" />
 		</p:menubar>
@@ -30,9 +31,16 @@
 	<h:form id="tabsForm">
 		<p:panel id="mainPanel">
 			<p:growl id="growl" showDetail="true" sticky="true" autoUpdate="true" />
+			<p:panel rendered="#{logTableTabsBean.tabs.size()==0}" style="text-align:center;">
+				<h:outputText value="Oh, my! It seems you are not viewing any logs yet." /><br/>
+				<br/>
+				<h:outputText value="Care to pick a file?" />
+				<br/><br/>
+				<p:commandButton value="Pick me! Pick me!" onclick="localFileDialog.show();" />
+			</p:panel>
 			<p:tabView id="tabs" var="logTable" value="#{logTableTabsBean.tabs}"
 				widgetVar="tabsWidget" rendered="#{logTableTabsBean.tabs.size()>0}">
-				<p:ajax event="tabClose" listener="#{logTableTabsBean.onTabClose}" />
+				<p:ajax event="tabClose" listener="#{logTableTabsBean.onTabClose}" update="tabsForm" />
 
 				<p:tab title="#{logTable.logFile.name}" closable="true">
 					<p:remoteCommand name="refreshTable" update="logTable"></p:remoteCommand>
@@ -170,10 +178,13 @@
 	</h:form>
 
 	<p:dialog id="helpDialog" widgetVar="helpDialog" closable="true"
-		modal="true" header="Help">
-		<li>Right click on item to filter by that IP</li>
-		<li>Use right or left keyboard keys to jump between pages</li>
-		<li>Log will autorefresh when on the last page of the table</li>
+		width="520" modal="true" header="Help">
+		<li>Right-click on item to filter by that IP</li>
+		<br />
+		<li>Use right or left keyboard keys to jump between pages quickly</li>
+		<br />
+		<li>Your log file will auto-refresh when you view the last page.
+			You can always use the Refresh button.</li>
 
 
 	</p:dialog>

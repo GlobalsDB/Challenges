@@ -6,10 +6,12 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import lombok.Getter;
 import me.yonatan.globals.c2.action.DbManager;
 
 import org.primefaces.event.TabCloseEvent;
@@ -27,6 +29,24 @@ public class LogTableTabsBean implements Serializable {
 
 	public List<LogTableBean> getTabs() {
 		return unmodifableTabs;
+	}
+
+	@Getter
+	private boolean canKill;
+
+	@PostConstruct
+	void init() {
+		SecurityManager security = System.getSecurityManager();
+		if (security == null) {
+			canKill = true;
+		} else {
+			try {
+				security.checkExit(0);
+				canKill=true;
+			} catch (Exception e) {
+				canKill=false;
+			}
+		}
 	}
 
 	@Inject
@@ -55,6 +75,11 @@ public class LogTableTabsBean implements Serializable {
 			}
 		}
 
+	}
+
+	public void kill() {
+		if (isCanKill())
+			System.exit(0);
 	}
 
 }

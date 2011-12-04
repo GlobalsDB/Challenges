@@ -1,6 +1,9 @@
 package com.uosipa.globalsdb.database;
 
-import com.intersys.globals.*;
+import com.intersys.globals.Connection;
+import com.intersys.globals.ConnectionContext;
+import com.intersys.globals.NodeReference;
+import com.intersys.globals.ProductInfo;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -63,6 +66,8 @@ public class Database {
             }
         }
 
+        nodeReference.set(value);
+        /*
         //connection.releaseAllLocks();
         connection.startTransaction();
         try {
@@ -93,9 +98,10 @@ public class Database {
             e.printStackTrace();
             connection.rollback();
         }
+        */
     }
 
-    public static ValueList getNodeValue(Object... subscripts) {
+    public static String getNodeValue(Object... subscripts) {
         NodeReference nodeReference = connection.createNodeReference("logs");
         for (Object subscript : subscripts) {
             if (subscript instanceof Long) {
@@ -105,7 +111,7 @@ public class Database {
             }
         }
 
-        return nodeReference.getList();
+        return nodeReference.getString();
     }
 
     public static List<String> getAllSubscripts(String... subscripts) {
@@ -124,5 +130,9 @@ public class Database {
         } while (subscript.length() > 0);
 
         return result;
+    }
+
+    public static void closeConnection() {
+        connection.close();
     }
 }

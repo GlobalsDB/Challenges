@@ -13,7 +13,7 @@ Also there is most clickable items chart (Statistics page).
 
 Key features:
 An object-globals mapping framework was developed for saving and loading data. Objects should inherit from Persistent class to use it. All data is stored in global ObjectClassName+”D”, indices ObjectClassName+ “I”
-Framework maintain indices for better search mechanism.
+Framework maintain indices for better search mechanism (using intersection of indices and searching by range)
 (And was made workaround for long text subscript (> 512 symbols)
 Graphic data presentation - a statisitics page (using index for better performance).
 
@@ -21,10 +21,9 @@ Futher improvement
 Application may be extended for more deeper analysis of user activity for egronomics improvement. Save combinations of clicked elements for UI usability improvement.(Group most often clicked elements together).
 Also, it would be perfect to allow to replay recorded clickstream sessions, on client, for testing purposes for example. Like selenium.
 
-Installation
+Installation:
 1. Install GlobalsDB
-Set the following environment variables 
-
+Set the following environment variables:
 GLOBALS_HOME - Pathname of the root of the Globals installation (e.g. C:\Globals\)
 PATH - Must include %GLOBALS_HOME%\bin
 CLASSPATH - Must include %GLOBALS_HOME%\dev\java\lib\JDK16\globalsdb.jar

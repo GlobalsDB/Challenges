@@ -35,28 +35,29 @@ public class SearchEngine {
 		NodeReference node = GlobalsConnection.getInstance()
 				.createNodeReference(Configuration.INDEX_GLOBAL);
 		node.appendSubscript(field);
+		node.appendSubscript("");
 		String subscript = "";
 		ValueList tempVal;
-		String tempStr = "";
+		int tempInt = 0;
 		ArrayList<Integer> ret = new ArrayList<Integer>();
 
 		do {
-			subscript = node.nextSubscript(field, subscript);
-			// if (!valueMax.isEmpty())
-			if (!subscript.isEmpty()
-					&& (subscript.compareToIgnoreCase(valueMax) > 0))
-				break;
+			subscript = node.nextSubscript();
+			node.setSubscriptCount(1);
+			node.appendSubscript(subscript);
+			if (!valueMax.isEmpty())
+				if (!subscript.isEmpty()
+						&& (subscript.compareToIgnoreCase(valueMax) > 0))
+					break;
 			if (!subscript.isEmpty()
 					&& (subscript.compareToIgnoreCase(valueMin) >= 0)) {
 				tempVal = node.getList();
 				tempVal.resetToFirst();
-				do {
-					tempStr = tempVal.getNextString();
-					if (tempStr.length() > 0)
-						ret.add(Integer.parseInt(tempStr));
-				} while (tempVal.length() > 0);
+				for (int i = 0; i < tempVal.length(); ++i) {
+					tempInt = tempVal.getNextInt();
+					ret.add(tempInt);
+				}
 			}
-
 		} while (subscript.length() > 0);
 
 		return ret;
@@ -103,21 +104,23 @@ public class SearchEngine {
 
 		while (iter.hasNext()) {
 			key = iter.next();
-			if (!flag) {
-				result = getRangeByOneField(key, fieldValuesMin.get(key),
-						fieldValuesMax.get(key));
-				flag = true;
-			} else {
-				temp = getRangeByOneField(key, fieldValuesMin.get(key),
-						fieldValuesMax.get(key));
-				for (int i = 0; i < result.size(); ++i) {
-					id = result.get(i);
-					if (!temp.contains(id)) {
-						result.remove((Object) id);
-					}
+			if (!fieldValuesMin.get(key).isEmpty()
+					|| !fieldValuesMax.get(key).isEmpty())
+				if (!flag) {
+					result = getRangeByOneField(key, fieldValuesMin.get(key),
+							fieldValuesMax.get(key));
+					flag = true;
+				} else {
+					temp = getRangeByOneField(key, fieldValuesMin.get(key),
+							fieldValuesMax.get(key));
+					for (int i = 0; i < result.size(); ++i) {
+						id = result.get(i);
+						if (!temp.contains(id)) {
+							result.remove((Object) id);
+						}
 
+					}
 				}
-			}
 		}
 		return result;
 

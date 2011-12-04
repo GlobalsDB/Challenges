@@ -45,12 +45,14 @@ public class ParserThread extends Thread {
 			while (continueLoad || ((strLine = br.readLine()) != null)) {
 				if (strLine == null)
 					sleep(5000);
-				++counter;
-				if (counter > Parser.recordImported) {
-					record = new LogRecord(counter, strLine);
-					record.save();
-					Parser.recordImported = counter;
-					Parser.saveImported();
+				else {
+					++counter;
+					if (counter > Parser.recordImported) {
+						record = new LogRecord(counter, strLine);
+						record.save();
+						Parser.recordImported = counter;
+						Parser.saveImported();
+					}
 				}
 			}
 			in.close();

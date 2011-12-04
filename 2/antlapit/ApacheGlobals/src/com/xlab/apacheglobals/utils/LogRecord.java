@@ -39,7 +39,7 @@ public class LogRecord {
 				.createNodeReference(Configuration.DATA_GLOBAL);
 		node.appendSubscript(id);
 		String[] values = node.getString().split("~~");
-		System.out.println(node.getString());
+		//System.out.println(node.getString());
 		node.setSubscriptCount(0);
 
 		Calendar cal = Calendar.getInstance();

@@ -183,7 +183,7 @@ public class ApacheGlobalsFrame extends JFrame {
 		JPanel panel1 = new JPanel(new GridLayout(0, 1));
 		ButtonGroup group = new ButtonGroup();
 
-		JRadioButton abstract1 = new JRadioButton("Static");
+		final JRadioButton abstract1 = new JRadioButton("Static");
 		abstract1.setSelected(true);
 		panel1.add(abstract1);
 		group.add(abstract1);
@@ -202,7 +202,7 @@ public class ApacheGlobalsFrame extends JFrame {
 				fileLabel.setText(file);
 				try {
 					Configuration.saveConfig();
-					ParserThread pt = new ParserThread(!abstract2.isSelected());
+					ParserThread pt = new ParserThread(!abstract1.isSelected());
 					pt.run();
 					setDataValid(false);
 				} catch (Exception e1) {
@@ -219,7 +219,6 @@ public class ApacheGlobalsFrame extends JFrame {
 		JLabel labelSpacer2 = new JLabel("---");
 		JLabel labelSpacer3 = new JLabel("---");
 		JLabel labelSpacer4 = new JLabel("---");
-		JLabel labelSpacer5 = new JLabel("---");
 
 		final TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(
 				panel.getModel());
@@ -306,22 +305,45 @@ public class ApacheGlobalsFrame extends JFrame {
 		max.put("response", filterTextTo4.getText());
 
 		try {
+
+			for (int i = 0; i < model.getRowCount(); ++i)
+				model.removeRow(0);
+
+			model.setDataVector(new Object[][] {}, headerStr);
+
 			ArrayList<Integer> ids = SearchEngine
 					.getRangeByManyFields(min, max);
 			LogRecord temp;
 			Vector<Object> vector;
-			for (int i = 0; i < ids.size(); ++i) {
-				vector = new Vector<Object>();
-				temp = new LogRecord(ids.get(i));
-				vector.clear();
-				vector.add(temp.getId());
-				vector.add(temp.getIp());
-				vector.add(temp.getParsedDate());
-				vector.add(temp.getMethod());
-				vector.add(temp.getResponse());
-				vector.add(temp.getBytessend());
-				vector.add(temp.getRequest());
-				model.addRow(vector);
+			if (ids.size() == 0) {
+				int recordsCount = Parser.recordImported;
+				for (int i = 1; i < recordsCount; ++i) {
+					vector = new Vector<Object>();
+					temp = new LogRecord(i);
+					vector.clear();
+					vector.add(temp.getId());
+					vector.add(temp.getIp());
+					vector.add(temp.getParsedDate());
+					vector.add(temp.getMethod());
+					vector.add(temp.getResponse());
+					vector.add(temp.getBytessend());
+					vector.add(temp.getRequest());
+					model.addRow(vector);
+				}
+			} else {
+				for (int i = 0; i < ids.size(); ++i) {
+					vector = new Vector<Object>();
+					temp = new LogRecord(ids.get(i));
+					vector.clear();
+					vector.add(temp.getId());
+					vector.add(temp.getIp());
+					vector.add(temp.getParsedDate());
+					vector.add(temp.getMethod());
+					vector.add(temp.getResponse());
+					vector.add(temp.getBytessend());
+					vector.add(temp.getRequest());
+					model.addRow(vector);
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -329,29 +351,21 @@ public class ApacheGlobalsFrame extends JFrame {
 	}
 
 	protected void refresh() {
-		for (int i = 0; i < model.getRowCount(); ++i)
-			model.removeRow(0);
+		/*
+		 * for (int i = 0; i < model.getRowCount(); ++i) model.removeRow(0);
+		 * 
+		 * model.setDataVector(new Object[][] {}, headerStr);
+		 * 
+		 * int recordsCount = Parser.recordImported; LogRecord temp;
+		 * Vector<Object> vector; for (int i = 1; i < recordsCount; ++i) {
+		 * vector = new Vector<Object>(); temp = new LogRecord(i);
+		 * vector.clear(); vector.add(temp.getId()); vector.add(temp.getIp());
+		 * vector.add(temp.getParsedDate()); vector.add(temp.getMethod());
+		 * vector.add(temp.getResponse()); vector.add(temp.getBytessend());
+		 * vector.add(temp.getRequest()); model.addRow(vector); }
+		 */
 
-		model.setDataVector(new Object[][] {}, headerStr);
-
-		int recordsCount = Parser.recordImported;
-		LogRecord temp;
-		Vector<Object> vector;
-		for (int i = 1; i < recordsCount; ++i) {
-			vector = new Vector<Object>();
-			temp = new LogRecord(i);
-			vector.clear();
-			vector.add(temp.getId());
-			vector.add(temp.getIp());
-			vector.add(temp.getParsedDate());
-			vector.add(temp.getMethod());
-			vector.add(temp.getResponse());
-			vector.add(temp.getBytessend());
-			vector.add(temp.getRequest());
-			model.addRow(vector);
-		}
-
-		// filter();
+		filter();
 		setDataValid(true);
 	}
 

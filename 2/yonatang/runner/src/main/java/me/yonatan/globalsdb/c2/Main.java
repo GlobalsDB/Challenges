@@ -125,25 +125,28 @@ public class Main {
 
 		CommandLineParser parser = new PosixParser();
 		try {
-			CommandLine line = parser.parse(options, args);
-			if (line.hasOption('h')) {
-				HelpFormatter formatter = new HelpFormatter();
-				formatter.printHelp("runner", options);
-				System.exit(0);
-			} else if (line.hasOption("generate")) {
-				String filename = line.getOptionValue("generate");
-				int records = 5000;
-				if (line.hasOption("records")) {
-					records = NumberUtils.toInt(line.getOptionValue("records"), 5000);
-				}
-				System.out.println("Generating to file " + filename + " " + records + " records");
-				LogGenerator.generate(records, filename);
-				System.exit(0);
-			} else {
+			if (args.length == 0) {
 				runTomcat();
+			} else {
+				CommandLine line = parser.parse(options, args);
+				if (line.hasOption("generate")) {
+					String filename = line.getOptionValue("generate");
+					int records = 5000;
+					if (line.hasOption("records")) {
+						records = NumberUtils.toInt(line.getOptionValue("records"), 5000);
+					}
+					System.out.println("Generating to file " + filename + " " + records + " records");
+					LogGenerator.generate(records, filename);
+					System.exit(0);
+				} else {
+					HelpFormatter formatter = new HelpFormatter();
+					formatter.printHelp("runner", options);
+					System.exit(0);
+				}
 			}
 
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
 	}

@@ -1,6 +1,5 @@
 package com.uosipa.globalsdb.dao;
 
-import com.intersys.globals.NodeReference;
 import com.uosipa.globalsdb.database.Database;
 import com.uosipa.globalsdb.model.Log;
 import com.uosipa.globalsdb.model.Service;
@@ -8,6 +7,7 @@ import com.uosipa.globalsdb.model.User;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 public class LogDao {
@@ -33,11 +33,13 @@ public class LogDao {
                 Log log = new Log();
                 log.setService(service);
                 log.setSeverity(severity);
-                log.setDate(null/*TODO*/);
+                log.setDate(new Date(Long.parseLong(subscript)));
 
-
-
-                log.setMessage(subscript);
+                log.setMessage(
+                        Database.getNodeValue(
+                                user.getLogin(), service.toString(), severity.toString(), Long.parseLong(subscript)
+                        )
+                );
 
                 result.add(log);
             }
@@ -55,7 +57,7 @@ public class LogDao {
     public void addLog(User user, Log log) {
         Database.addToNode(
                 log.getMessage(), user.getLogin(), log.getService().toString(),
-                log.getSeverity().toString(), log.getDate().toString()
+                log.getSeverity().toString(), log.getDate().getTime()
         );
     }
 }

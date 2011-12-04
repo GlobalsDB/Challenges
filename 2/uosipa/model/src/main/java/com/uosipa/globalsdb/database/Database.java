@@ -55,20 +55,28 @@ public class Database {
         return connection.createNodeReference(key).exists();
     }
 
-    public static void addToNode(String value, String... subscripts) {
+    public static void addToNode(String value, Object... subscripts) {
         NodeReference nodeReference = connection.createNodeReference("logs");
 
-        for (String subscript : subscripts) {
-            nodeReference.appendSubscript(subscript);
+        for (Object subscript : subscripts) {
+            if (subscript instanceof Long) {
+                nodeReference.appendSubscript((Long) subscript);
+            } else {
+                nodeReference.appendSubscript((String) subscript);
+            }
         }
 
         nodeReference.set(value);
     }
 
-    public static String getNodeValue(String... subscripts) {
+    public static String getNodeValue(Object... subscripts) {
         NodeReference nodeReference = connection.createNodeReference("logs");
-        for (String subscript : subscripts) {
-            nodeReference.appendSubscript(subscript);
+        for (Object subscript : subscripts) {
+            if (subscript instanceof Long) {
+                nodeReference.appendSubscript((Long) subscript);
+            } else {
+                nodeReference.appendSubscript((String) subscript);
+            }
         }
 
         return nodeReference.getString();

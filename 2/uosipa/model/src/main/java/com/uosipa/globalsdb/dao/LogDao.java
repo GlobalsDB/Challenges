@@ -1,5 +1,6 @@
 package com.uosipa.globalsdb.dao;
 
+import com.intersys.globals.ValueList;
 import com.uosipa.globalsdb.database.Database;
 import com.uosipa.globalsdb.model.Log;
 import com.uosipa.globalsdb.model.Service;
@@ -30,18 +31,20 @@ public class LogDao {
             );
 
             for (String subscript : subscripts) {
-                Log log = new Log();
-                log.setService(service);
-                log.setSeverity(severity);
-                log.setDate(new Date(Long.parseLong(subscript)));
-
-                log.setMessage(
-                        Database.getNodeValue(
-                                user.getLogin(), service.toString(), severity.toString(), Long.parseLong(subscript)
-                        )
+                ValueList logs = Database.getNodeValue(
+                        user.getLogin(), service.toString(), severity.toString(), Long.parseLong(subscript)
                 );
 
-                result.add(log);
+                for (int i = 0; i < logs.length(); ++i) {
+                    Log log = new Log();
+                    log.setService(service);
+                    log.setSeverity(severity);
+                    log.setDate(new Date(Long.parseLong(subscript)));
+
+                    log.setMessage(logs.getNextString());
+
+                    result.add(log);
+                }
             }
         }
 

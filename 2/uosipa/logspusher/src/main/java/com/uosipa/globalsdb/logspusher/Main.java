@@ -3,6 +3,7 @@ package com.uosipa.globalsdb.logspusher;
 import com.uosipa.globalsdb.LogParser;
 import com.uosipa.globalsdb.dao.LogDao;
 import com.uosipa.globalsdb.dao.UserDao;
+import com.uosipa.globalsdb.database.Database;
 import com.uosipa.globalsdb.model.Service;
 import com.uosipa.globalsdb.model.User;
 import org.apache.commons.cli.*;
@@ -15,9 +16,13 @@ public class Main {
     private static User user;
 
     public static void main(String[] args) throws IOException, ParseException {
-        parseArguments(args);
-        run();
-        //Sample.main(args);
+        try {
+            parseArguments(args);
+            run();
+            //Sample.main(args);
+        } finally {
+            Database.closeConnection();
+        }
     }
 
     private static void run() throws IOException {
@@ -34,7 +39,7 @@ public class Main {
                 } catch (InterruptedException ignored) {
                 }
 
-                // break exit;
+                //break exit;
             }
 
             if (LogParser.isNewLogStart(logLine, service)) {
@@ -53,8 +58,8 @@ public class Main {
             }
             log.append(logLine);
         }
-
-        /*for (Log logg : LogDao.getInstance().findLogs(user, service, Log.Severity.FATAL)) {
+/*
+        for (Log logg : LogDao.getInstance().findLogs(user, service, Log.Severity.FATAL)) {
             System.out.println(logg.getDate() + " " + logg.getMessage());
         }*/
     }
@@ -72,6 +77,12 @@ public class Main {
         CommandLine cmd = parser.parse(options, args);
 
         if (cmd.hasOption("help")) {
+            HelpFormatter formatter = new HelpFormatter();
+            formatter.printHelp("java -jar logpusher.jar", options, true);
+            return;
+        }
+
+        if (!cmd.hasOption("log-file") || !cmd.hasOption("service") || !cmd.hasOption("login") || !cmd.hasOption("password")) {
             HelpFormatter formatter = new HelpFormatter();
             formatter.printHelp("java -jar logpusher.jar", options, true);
             return;

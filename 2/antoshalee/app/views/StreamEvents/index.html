@@ -1,0 +1,112 @@
+#{extends 'main.html' /}
+#{set title:'Clickstream events list' /}
+
+#{set 'moreScripts'}
+    #{script 'streamEvents.js' /}
+    #{script 'jquery-ui-1.8.16.custom.min.js' /}
+    #{script 'jquery-ui-timepicker-addon.js' /}
+
+    
+#{/set}
+
+#{set 'moreStyles'}
+	#{stylesheet 'jquery-ui-1.8.16.custom.css' /}
+	#{stylesheet 'jquery-ui-timepicker-addon.css' /}
+	#{stylesheet 'bootstrap.min.css' /}
+#{/set}
+
+<!--
+public String eventType;
+	public String elementType;
+	public String mouseX;
+	public String mouseY;
+	public String elementId;
+	public String elementClass;
+	public String timeStamp;
+	
+	public String sessionId; 
+ -->
+
+
+<h1>List of clickstream events</h1>
+
+<table>
+<tr id="filter_tr">
+<td>
+	<form id="filter">
+		<fieldset>
+			<div class="clearfix">
+				<label for="element_type">Element type</label>
+				<div class="input">
+					<input class="span2 filter_field" id="element_type" name="element_type" type="text" />
+				</div>
+			</div>
+			
+			<div class="clearfix">
+				<label>Created at from</label>
+				<div class="input">
+					<input type="text" id="datepicker1" value="" />
+					
+				</div>
+			</div>
+					<div class="clearfix">
+				<label>Created at to</label>
+				<div class="input">
+					<input type="text" id="datepicker2" value="" />
+					
+				
+				</div>
+			</div>
+			
+		</fieldset>
+	</form>
+</td>
+<td>
+	<form id="filter">
+	<fieldset>
+		<div class="clearfix">
+			<label for="element_id">Element Id</label>
+			<div class="input">
+				<input class="span4 filter_field" id="element_id" name="element_id" type="text" />
+			</div>
+		</div>
+		<div class="clearfix">
+			<label for="element_type">Element class</label>
+			<div class="input">
+				<input class="span4 filter_field" id="element_class" name="element_class" type="text" />
+			</div>
+		</div>
+		<div class="clearfix">
+			<label for="session_id">IP</label>
+			<div class="input">
+				<input class="span4 filter_field" id="session_id" name="session_id" type="text" />
+			</div>
+		</div>
+	</fieldset>
+</form>
+</td>
+</tr>
+<tr>
+<td id="buttons_cell"><button id="apply_filter" class="btn primary">Apply</button><button id="clear_filter" class="btn">Clear</button></td>
+<td id="right_aligned_cell">
+	<label>
+		<input type="checkbox" name="optionsCheckboxes" value="option2" id="real_time_mode_checkbox" />
+		<span>Real-time mode</span>
+	</label>
+</td>
+</tr>
+</table>
+
+
+
+<table id="events_table">
+	<tbody>
+		<tr>
+			<th>Id</th>
+			<th>Class</th>
+			<th>Type</th>
+			<th>Created at</th>
+			<th>IP</th>
+		</tr>
+	</tbody>
+</table>

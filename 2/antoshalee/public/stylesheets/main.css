@@ -1,0 +1,16 @@
+.filter_field {
+	margin-left: 8px;
+}
+
+.gray {
+	color: #BFBFBF;
+	font-weight: bold;
+}
+
+#clear_filter {
+	margin-left: 10px;
+}
+
+#right_aligned_cell {
+	text-align: right;
+}

@@ -1,0 +1,1 @@
+java -Xss1024k "LogReader"

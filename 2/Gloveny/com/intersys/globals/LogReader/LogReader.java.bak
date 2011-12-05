@@ -1,0 +1,82 @@
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+
+public class javagui extends JFrame {
+    JTextArea textarea_1;
+    JScrollPane sp_textarea_1;
+    JPanel mainPanel;
+    JButton Find;
+
+    public javagui() {
+        javaguiLayout customLayout = new javaguiLayout();
+
+        getContentPane().setFont(new Font("Helvetica", Font.PLAIN, 12));
+        getContentPane().setLayout(customLayout);
+
+        textarea_1 = new JTextArea("textarea_1");
+        sp_textarea_1 = new JScrollPane(textarea_1);
+        getContentPane().add(sp_textarea_1);
+
+        mainPanel = new JPanel();
+        getContentPane().add(mainPanel);
+
+        Find = new JButton("Find");
+        getContentPane().add(Find);
+
+        setSize(getPreferredSize());
+
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                System.exit(0);
+            }
+        });
+    }
+
+    public static void main(String args[]) {
+        javagui window = new javagui();
+
+        window.setTitle("javagui");
+        window.pack();
+        window.show();
+    }
+}
+
+class javaguiLayout implements LayoutManager {
+
+    public javaguiLayout() {
+    }
+
+    public void addLayoutComponent(String name, Component comp) {
+    }
+
+    public void removeLayoutComponent(Component comp) {
+    }
+
+    public Dimension preferredLayoutSize(Container parent) {
+        Dimension dim = new Dimension(0, 0);
+
+        Insets insets = parent.getInsets();
+        dim.width = 830 + insets.left + insets.right;
+        dim.height = 566 + insets.top + insets.bottom;
+
+        return dim;
+    }
+
+    public Dimension minimumLayoutSize(Container parent) {
+        Dimension dim = new Dimension(0, 0);
+        return dim;
+    }
+
+    public void layoutContainer(Container parent) {
+        Insets insets = parent.getInsets();
+
+        Component c;
+        c = parent.getComponent(0);
+        if (c.isVisible()) {c.setBounds(insets.left+16,insets.top+328,776,192);}
+        c = parent.getComponent(1);
+        if (c.isVisible()) {c.setBounds(insets.left+8,insets.top+0,800,536);}
+        c = parent.getComponent(2);
+        if (c.isVisible()) {c.setBounds(insets.left+360,insets.top+40,136,48);}
+    }
+}

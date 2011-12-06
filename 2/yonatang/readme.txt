@@ -13,8 +13,22 @@ Can be run as a desktop application, or deployed into a Servlet container.
 Running the application:
 ========================
 Get the runner.jar file, by one of the following ways:
-1. Pull the project, and get the runner.jar file from the root (Challenges/master/2/yonatang/runner.jar), or 
-2. Build the application (mvn clean install), and get the jar file from runner/target/runner.jar
+   1. (Recommanded) 
+   Download the required version:
+   Windows 64 - http://www.mediafire.com/?blhqcrib2f9wxhw 
+   MD5: 6a910c6ea0e8a56f18921375be9e5f64 
+   SHA-1: 65f08406ba3ca5d79b22ea41137b117829bbf02b  
+
+   Windows 32 - http://www.mediafire.com/?dgdtj772tdcgzou
+   MD5: 0f11edfe2fc3e45a36175e1ff104c61b
+   SHA-1: d578c5557db50f60f521ae3496627d805e8f3766
+
+   2. 
+   For windows 64 - Pull the project, and get the runner.jar file from the root (Challenges/master/2/yonatang/runner.jar), or 
+   3. 
+   Build the application (mvn clean install), and get the jar file from runner/target/runner.jar
+   Mind to use the correct swt.jar in your build! (it set to windows-64)
+
 Then:
 > java -jar runner.jar
 

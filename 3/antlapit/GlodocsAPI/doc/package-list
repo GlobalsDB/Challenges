@@ -1,0 +1,7 @@
+com.xlab.glodocs.api
+com.xlab.glodocs.api.db
+com.xlab.glodocs.api.journal
+com.xlab.glodocs.api.security
+com.xlab.glodocs.api.test
+com.xlab.glodocs.api.utils
+org.json

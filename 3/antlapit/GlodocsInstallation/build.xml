@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="create_run_jar" name="Create Runnable Jar for Project GlodocsInstallation">
+    <!--this file was created by Eclipse Runnable JAR Export Wizard-->
+    <!--ANT 1.7 is required                                        -->
+    <target name="create_run_jar">
+        <jar destfile="D:/WorkProjects/Glodocs/globals-documentary/GlodocsInstallation/dist/install.jar" filesetmanifest="mergewithoutmain">
+            <manifest>
+                <attribute name="Main-Class" value="com.xlab.glodocs.install.Installation"/>
+                <attribute name="Class-Path" value="."/>
+            </manifest>
+            <fileset dir="D:/WorkProjects/Glodocs/globals-documentary/GlodocsInstallation/bin"/>
+            <zipfileset excludes="META-INF/*.SF" src="D:/WorkProjects/Glodocs/globals-documentary/GlodocsAPI/dist/glodocsapi.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="D:/WorkProjects/Glodocs/globals-documentary/GlodocsAPI/lib/globalsdb.jar"/>
+        </jar>
+    </target>
+</project>

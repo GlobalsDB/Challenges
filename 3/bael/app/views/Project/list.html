@@ -1,0 +1,15 @@
+#{extends 'main.html' /}
+
+#{set 'moreScripts'}
+    #{script 'projects_list.js' /}  
+#{/set}
+
+#{set 'moreStyles'}
+	#{stylesheet 'project_list.css' /}
+#{/set}
+
+#{set title:'Tundra: projects' /}
+
+<h1>Projects list</h1>
+
+<ul class="alt" id="projects_list"></ul>

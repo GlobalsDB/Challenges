@@ -1,0 +1,31 @@
+#{extends 'main.html' /}
+
+#{set title:'Tundra: new project' /}
+
+<div class="col_4">
+
+		<label for="project_name">Project name</label>
+		<input id="project_name" type="text" />
+		<button class="blue" id="create_button">Create</button>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+	$('#create_button').unbind("click");
+	$('#create_button').click(function () {
+		if ($('#project_name').val() == "") {
+			$('#project_name').addClass('error');
+		}
+		else {
+			$('#project_name').removeClass('error');
+			var project_name = $('#project_name').val().replace(/ /gi, "_");
+			
+			var result = {project_name: project_name};
+			$.post("/project/new_project", JSON.stringify(result),function (data) {
+				
+			}, "json");
+			window.location = "/project/list";
+		}
+	});
+});
+</script>

@@ -1,1 +1,51 @@
-here will be a text
+
+Functionality:
+This project is called Tundra. Tundra allows user to create prototypes of web applications fast without any line of server-side code. The service provides online storage based on Globals DB, user interface for database schema management and  JS framework which allows to operate with remote data transparently. Also it automatically generates example html forms based on schema for operating with data.
+
+Implementation
+
+Globals layer:
+It writes data in raw JSON format. Maintains indexes. 
+It supports filtering, sorting and pagination.
+
+JavaScript Layer:
+The one provides CRUD-and-Searching functionality based on ActiveRecord pattern. After schema creation user receives auto-generated javascript-file. This library allows him  to call CRUD-functions on javascript "classes" and objects. All functions are asynchronous and designed using the callbacks-model.
+
+Data transferring between JS and server is implemented by Ajax-calls (using JSON protocol) and fully transparent for end-developers.
+
+What is ready at the moment:
+
+CRUD
+Filtering
+Ordering
+
+Near future:
+user sessions and authorization
+associations (relationships)
+validations
+using indexing in filtering - needs selectivity storage
+pagination on JavaScript layer
+view-template engine
+
+You can take a closer look to the developer guide by visiting of the main page of service prototype http://93.88.167.141 
+
+Here the simple example of use: test blog http://93.88.167.141/test
+*** Warnings
+It doesn’t well support IE, better use FireFox or Chrome.
+
+Installation:
+1. Install GlobalsDB
+Set the following environment variables:
+GLOBALS_HOME - Pathname of the root of the Globals installation (e.g. C:\Globals\)
+PATH - Must include %GLOBALS_HOME%\bin
+CLASSPATH - Must include %GLOBALS_HOME%\dev\java\lib\JDK16\globalsdb.jar
+2. Install playframework
+Download  play framework (http://download.playframework.org/releases/play-1.2.4.zip), extract to folder %PlayFolderRoot%
+3. Copy application into folder %AppFolder%
+4. Change current directory to %AppFolder%
+Try It:
+http://93.88.167.141 
+example:
+http://93.88.167.141/test
+
+

@@ -11,6 +11,11 @@ public class Utils {
     {
         return tableName + "D";
     }
+	
+	public static String TableNameToGlobalsIndexName(String tableName)
+    {
+        return tableName + "I";
+    }
     
     public static String GlobalsNameToTableName(String globalsName)
     {

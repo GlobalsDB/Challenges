@@ -1,0 +1,119 @@
+#{extends 'main.html' /}
+#{set title:'Tundra: home' /}
+
+<h1 class="center">
+	<span class="icon" style="font-size:400px;text-shadow: 0px 3px 2px rgba(0,0,0,0.3);color:#efefef;">F</span><br />
+	Tundra
+</h1>
+<h3 style="color:#ccc;margin-bottom:40px;" class="center">Fast prototyper</h3>
+
+<h3>Overview</h3>
+
+<p>Tundra project allows you to quickly create Web applications without any line of server-side code!
+The Tundra's main idea is to integrate Cloud NoSql Database and client-side framework which provides transparent CRUD-functionality for JS objects.
+</p>
+
+<p>
+Since you choose <strong>Tundra</strong>, you:
+<ul>
+	<li><strong>Don't worry about hosting.</strong> All you need is to create new Tundra Project. At this point your site is already online.</li> 
+	<li><strong>Don't worry about server code.</strong>Just write your business code using only JavaScript. Tundra makes this process pretty simple, fast and fun.</li>
+	<li><strong>Don't worry about storage engine.</strong>Our database supports relational paradigm as well as NoSql approach. Tundra provide ability for indexing, 
+validations and transactions.</li>
+	
+</ul>
+</p>
+
+
+<h3>Quick Start</h3>
+<ol>
+	<li>Click on Projects->Create. Then type desired project name.</li>
+	<li>
+		Create your project database schema
+		<p>At this step you should add tables corresponding to the entities you desire to use in the project.</p>
+		<p>Feel free to add needed columns for each table.</p>
+		<p>Submit it!</p>
+	</li>
+	<li>
+		Include following scripts to your HTML-file. <br />
+		<p>JQuery:</p>
+		<pre class="prettyprint">&lt;script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"&gt;&lt;/script&gt;</pre>
+		
+		<p>Tundra core:</p>
+		<pre class="prettyprint">&lt;script type="text/javascript" src='http://93.88.167.141/public/js/tundra.js'&gt; &lt;/script&gt;</pre>
+		<p>	Your models (use concrete link that you will receive after schema submitting!):</p>
+		<pre class="prettyprint">&lt;script type="text/javascript" src='http://93.88.167.141/public/js/models/models1.js'&gt; &lt;/script&gt;</pre>
+
+	</li>
+	<li>Enjoy It!</li>	
+</ol>
+
+<p>Note that after schema creation you are able to download auto-generated template of your views. It consist of js-file and html file. Feel free to download and modify these
+resources to quick start with Tundra. 
+</p>
+
+<h3>JavaScript layer guide</h3>
+
+<p>Assume you've just created schema with one table <strong>Person</strong> which has 3 columns: <i>"firstname"</i>, <i>"lastname"</i>, <i>"age"</i></p>
+<p> Including of auto-generated js-file to your html gives you access to following powerful functions: </p>
+<ol>
+	<li>Creating new object</li>
+	<p>First create a JS-object:</p>
+	<pre class="js prettyprint">
+person = new Person();
+person.firstname="Alex";
+person.lastname="Johns";
+person.age=28;</pre>
+	<p>Another way:</p>
+	<pre class="js prettyprint">
+person = new Person({firstname: "Alex", lastname:"Johns", age:28});</pre>
+	<p>Now you're able to store it in Tundra database!:</p>
+	<pre class="js prettyprint">
+person.save(function(){
+  alert('successfully saved!');
+});</pre>
+		
+	<li>Retrieving object</li>
+	<pre class="js prettyprint">
+Person.open(1,function(person){ // get person with Id=1
+  alert(person.firstname);	// output "Alex";
+});</pre>
+
+	<li>Update object</li>
+	<pre class="js prettyprint">
+Person.open(1,function(person){
+  person.age = 29;
+  person.save(function(){
+    alert('Age was succesfully changed to 29');
+  });
+});</pre>
+
+	<li>Delete object</li>
+	<pre class="js prettyprint">
+Person.deleteId(1,function(){
+    alert('Alex left');
+  });
+});</pre>
+	
+	<li>Find and sort</li>
+	<p>With Tundra filtering and ordering become so simple!</p>
+	<pre class="js prettyprint">
+Person.where('age','<',28).order("age","desc").getObjects(function(people){
+  RedrawPeople(people);
+});</pre>
+
+	<li>Add dynamic behaviour</li>
+	<p>You may add methods to your objects</p>
+	<pre class="js prettyprint">
+Person.method("fullname",function(){
+  return this.firstname + " " + this.lastname;
+});
+
+// Use method
+Person.open(1,function(person){
+  alert(person.fullname());
+}
+</pre>
+
+	
+</ol>

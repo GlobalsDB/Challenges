@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>#{get 'title' /}</title>
+        <meta charset="${_response_encoding}">
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+		<!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+		
+		<link rel="stylesheet" type="text/css" href="@{'/public/css/kickstart.css'}" media="all" />
+		<link rel="stylesheet" type="text/css" href="@{'/public/css/style.css'}" media="all" />
+        #{get 'moreStyles' /}
+        <link rel="shortcut icon" type="image/png" href="@{'/public/images/favicon.png'}">
+        
+        <script src="@{'/public/js/jquery-1.6.4.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+        <script type="text/javascript" src="@{'/public/js/prettify.js'}"></script>
+		<script type="text/javascript" src="@{'/public/js/kickstart.js'}"></script>
+        #{get 'moreScripts' /}
+    </head>
+    <body>
+    
+    
+    
+    
+    	<a id="top-of-page"></a><div id="wrap" class="clearfix">
+    	<ul class="menu">
+    		<li><a href="/"><span class="icon">F</span>Home</a></li>
+	    	<li><a href="/project/list"><span class="icon">R</span>Projects</a>
+				<ul>
+					<li><a href="/project/create"><span class="icon">G</span>Create</a></li>
+				</ul>
+			</li>
+    	</ul>
+		<div class="col_12">
+			#{doLayout /}
+		</div>
+		</div>
+		</div>
+    </body>
+</html>

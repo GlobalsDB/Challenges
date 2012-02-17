@@ -7,8 +7,5 @@ public class ConditionType {
 	public static String GRETATEOREQUAL = "=>";
 	public static String LESOREQUAL = "<=";
 	public static String NOTEQUAL = "!=";
-	
-
-	
-	
+	public static String CONTAINS = "contains";
 }

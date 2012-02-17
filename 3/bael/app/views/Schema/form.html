@@ -1,0 +1,37 @@
+#{extends 'main.html' /}
+
+#{set title:'Tundra: schema' /}
+
+
+#{set 'moreScripts'}
+    #{script 'scheme.js' /}  
+#{/set}
+
+#{set 'moreStyles'}
+	#{stylesheet 'scheme.css' /}
+#{/set}
+
+<span id="project_id">${project_id}</span>
+
+<div class="notice success" id="links_wrapper" style="display: none;">
+	<div style="float: left; clear: both;">
+		<span class="icon x-large links_icon" data-icon="C"><span aria-hidden="true">C</span></span><br /><span> </span>
+	</div>
+	
+	<div style="display: block;">
+		Include this js in your html. Don't modify it! <br />
+		Models: <a id="models_url" href=""></a><br />
+		You may also download following resources to quick start. Fell free to modify <br />
+		Views: <a id="views_url" href=""></a><br />
+		Html: <a id="html_url" href=""></a><br />
+	</div>
+	
+</div>
+
+<div id="links_wrapper">
+
+</div>
+<div id="tables_wrapper">
+</div>
+
+<div id="actions_wrapper"></div>

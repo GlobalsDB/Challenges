@@ -1,0 +1,27 @@
+.add_column {
+	margin: 0 0 5px 0;
+}
+
+.remove_column:hover, .remove_table:hover {
+	cursor: pointer;
+}
+
+.table_header {
+	display: inline;
+}
+
+#project_id {
+	display: none;
+}
+
+select {
+	margin: 10px 5px 0 0;
+}
+
+.index_flag {
+	margin: 16px 0 0px 0;
+}
+
+.links_icon {
+	margin: 23px 1px 1px 1px;
+}

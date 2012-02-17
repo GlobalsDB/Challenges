@@ -1,0 +1,36 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET     /                                       Application.index
+
+GET     /test                                    Application.test
+
+# Ignore favicon requests
+GET     /favicon.ico                            404
+
+# Map static resources from the /app/public folder to the /public path
+GET     /public/                                staticDir:public
+
+GET /objects/{projectId}/{tableName}/{id}		CRUD.show
+
+GET /objects/{projectId}/{tableName}        	CRUD.list
+
+POST /objects/{projectId}/{tableName}		    CRUD.create
+
+OPTIONS /objects/{projectId}/{tableName}/{id}	CRUD.options
+
+DELETE /objects/{projectId}/{tableName}/{id}	CRUD.delete
+
+PUT /objects/{projectId}/{tableName}/{id}		CRUD.update
+
+POST /schema/create								Schema.create
+
+GET /schema/read/{project_id}					Schema.read
+
+GET /schema/{project_id}						Schema.form
+
+# Catch all
+*       /{controller}/{action}               {controller}.{action}
+

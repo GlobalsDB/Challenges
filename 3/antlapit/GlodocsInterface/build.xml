@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="create_run_jar" name="Create Runnable Jar for Project GlodocsInterface">
+    <!--this file was created by Eclipse Runnable JAR Export Wizard-->
+    <!--ANT 1.7 is required                                        -->
+    <target name="create_run_jar">
+        <jar destfile="D:/WorkProjects/Glodocs/globals-documentary/GlodocsInterface/dist/client.jar" filesetmanifest="mergewithoutmain">
+            <manifest>
+                <attribute name="Main-Class" value="com.xlab.glodocs.gui.main.Main"/>
+                <attribute name="Class-Path" value="."/>
+            </manifest>
+            <fileset dir="D:/WorkProjects/Glodocs/globals-documentary/GlodocsInterface/bin"/>
+            <zipfileset excludes="META-INF/*.SF" src="D:/WorkProjects/Glodocs/globals-documentary/GlodocsInterface/lib/trident-6.3.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="D:/WorkProjects/Glodocs/globals-documentary/GlodocsInterface/lib/substance-6.3.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="D:/WorkProjects/Glodocs/globals-documentary/GlodocsInterface/lib/swt64.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="D:/WorkProjects/Glodocs/globals-documentary/GlodocsInterface/lib/miglayout-4.0-swing.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="D:/WorkProjects/Glodocs/globals-documentary/GlodocsAPI/dist/glodocsapi.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="D:/WorkProjects/Glodocs/globals-documentary/GlodocsAPI/lib/globalsdb.jar"/>
+        </jar>
+    </target>
+</project>

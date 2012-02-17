@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title>
+		Globals for the Environment - Ocean CO2 trends for ${REGION_DESC}
+    </title>
+    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load('visualization', '1', {packages: ['corechart']});
+    </script>
+    <script type="text/javascript">
+      function drawVisualization() {
+        // Create and populate the data table.
+        var data = new google.visualization.DataTable();
+        var raw_data = ${RAW_DATA};
+
+        var years = ${YEARS};
+
+        data.addColumn('string', 'Year');
+        for (var i = 0; i  < raw_data.length; ++i) {
+          data.addColumn('number', raw_data[i][0]);
+        }
+
+        data.addRows(years.length);
+
+        for (var j = 0; j < years.length; ++j) {
+          data.setValue(j, 0, years[j].toString());
+        }
+        for (var i = 0; i  < raw_data.length; ++i) {
+          for (var j = 1; j  < raw_data[i].length; ++j) {
+            data.setValue(j-1, i+1, raw_data[i][j]);
+          }
+        }
+
+        // Create and draw the visualization.
+        new google.visualization.ColumnChart(document.getElementById('visualization')).
+            draw(data,
+                 {title:"CO2 Levels on the Surface of the Ocean - in units of microatmospheres",
+                  width:1324, height:400,
+                  hAxis: {title: "Year"}}
+            );
+      }
+
+      google.setOnLoadCallback(drawVisualization);
+    </script>
+  </head>
+  <body bgcolor="#ffc90e" style="font-family: Arial;border: 0 none;">
+	<h3>Region ${REGION_DESC}</h3>
+    <div id="visualization" style="width: 600px; height: 400px;"></div>
+    <p align="left">
+		<a href="${RAW_DATA_URL}">Raw Data</a>
+    </p>
+  </body>
+</html>

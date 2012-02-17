@@ -1,0 +1,9 @@
+{
+    "name": "globals-for-the-environment",
+    "version": "1.0.0",
+    "dependencies": {
+       "connect": ""
+    },
+    "scripts": {"start": "node app.js"}
+}
+

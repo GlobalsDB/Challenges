@@ -1,0 +1,21 @@
+C:\Users\sween\AppData\Local\Temporary Projects\dicom2global\bin\Debug\dicom2global.exe
+C:\Users\sween\AppData\Local\Temporary Projects\dicom2global\bin\Debug\dicom2global.pdb
+C:\Users\sween\AppData\Local\Temporary Projects\dicom2global\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\sween\AppData\Local\Temporary Projects\dicom2global\obj\x86\Debug\dicom2global.Form1.resources
+C:\Users\sween\AppData\Local\Temporary Projects\dicom2global\obj\x86\Debug\dicom2global.Properties.Resources.resources
+C:\Users\sween\AppData\Local\Temporary Projects\dicom2global\obj\x86\Debug\GenerateResource.read.1.tlog
+C:\Users\sween\AppData\Local\Temporary Projects\dicom2global\obj\x86\Debug\GenerateResource.write.1.tlog
+C:\Users\sween\AppData\Local\Temporary Projects\dicom2global\obj\x86\Debug\dicom2global.exe
+C:\Users\sween\AppData\Local\Temporary Projects\dicom2global\obj\x86\Debug\dicom2global.pdb
+C:\Users\sween\Desktop\dicom2global\dicom2global\obj\x86\Debug\dicom2global.exe
+C:\Users\sween\Desktop\dicom2global\dicom2global\obj\x86\Debug\dicom2global.pdb
+C:\Users\sween\Desktop\dicom2global\dicom2global\bin\Debug\dicom2global.exe
+C:\Users\sween\Desktop\dicom2global\dicom2global\bin\Debug\dicom2global.pdb
+C:\Users\sween\Desktop\dicom2global\dicom2global\bin\Debug\Dicom.dll
+C:\Users\sween\Desktop\dicom2global\dicom2global\bin\Debug\NLog.dll
+C:\Users\sween\Desktop\dicom2global\dicom2global\bin\Debug\Dicom.pdb
+C:\Users\sween\Desktop\dicom2global\dicom2global\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\sween\Desktop\dicom2global\dicom2global\obj\x86\Debug\dicom2global.Form1.resources
+C:\Users\sween\Desktop\dicom2global\dicom2global\obj\x86\Debug\dicom2global.Properties.Resources.resources
+C:\Users\sween\Desktop\dicom2global\dicom2global\obj\x86\Debug\GenerateResource.read.1.tlog
+C:\Users\sween\Desktop\dicom2global\dicom2global\obj\x86\Debug\GenerateResource.write.1.tlog

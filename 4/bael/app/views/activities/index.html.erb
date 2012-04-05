@@ -1,0 +1,27 @@
+<h1>Listing activities</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Duration</th>
+    <th>Parent</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @activities.each do |activity| %>
+  <tr>
+    <td><%= activity.name %></td>
+    <td><%= activity.duration %></td>
+    <td><%= activity.parent_id %></td>
+    <td><%= link_to 'Show', activity %></td>
+    <td><%= link_to 'Edit', edit_activity_path(activity) %></td>
+    <td><%= link_to 'Destroy', activity, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Activity', new_activity_path %>

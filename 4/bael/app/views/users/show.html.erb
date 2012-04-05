@@ -1,0 +1,16 @@
+<%= @user.name %>
+<%= link_to "@#{@user.nickname}", "http://twitter.com/#{@user.nickname}" %>
+
+<ul class="unstyled activity-list">
+ 
+  <% last_user_activities(@user,20).each do |ra| %>
+  <li>
+    <img src="<%= ra[:user_picture] %>" alt="<%= ra[:user_name] %>" style="width:30px;height:30px" />
+    <span><%= link_to ra[:user_name], user_path(ra[:user_id]) %></span>
+    <%= render :partial => 'activities/activity_with_picture', :locals => {:activity_id => ra[:activity_id]} %>
+	
+	<%= Time.at(ra[:start_time].to_i).strftime("at %H:%M") %>
+  </li>
+  <% end %>
+</ul>
+

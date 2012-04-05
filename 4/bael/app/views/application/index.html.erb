@@ -1,0 +1,11 @@
+<h2>Submit your activity right now!</h2>
+ <%= render :partial => 'activities/select_activity' %>
+
+
+<% if activity_of_current_user.blank? %>
+    <%= render :partial => 'activities/recent_activities' %>
+  <% else %>
+    <%= render :partial => 'activities/same_activities' %>
+  <% end %>
+
+

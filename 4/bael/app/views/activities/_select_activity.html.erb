@@ -1,0 +1,57 @@
+<style>
+	#div.slider_block { padding: 10px !important; }
+	</style>
+	<script>
+    var objArray = new Array();
+  
+    
+    <% activities_list.each do |act| %>
+			<% if(act.duration!=nil)%>
+				objArray[<%= act.id %>] = <%=  act.duration.to_int %>;
+			<% end %>
+    <% end %>
+    
+    $(function() {
+        $( "#slider" ).slider({
+          value:0,
+          min: 5,
+          max: 60,
+          step: 5,
+          slide: function( event, ui ) {
+            $("#duration_label").text( ui.value  + " min");
+            $("#duration_input").val(ui.value);
+          }
+        });
+        $("#duration_label").text( $( "#slider" ).slider( "value" ) + " min" );
+        $("#duration_input").val($( "#slider" ).slider( "value" ));
+      });
+	  
+	  $("#duration").filter_input({regex:'[0-9]',live:true});
+	</script>
+
+<div class='well' style="padding: 10px 0 1px 10px;width: 470px;">
+
+  <%= form_tag activities_submit_url, :method => 'post', :style => 'margin:0;padding:0' do %>
+    <%= select_tag(:activity_id, options_for_select(activities), :id => 'select-activity') %>
+    <div id="image-container" style="margin: 0 3px;width: 25px;display: inline-block;"></div>
+    <div id="slider" style="display: inline-block;width: 50px;margin: 0 5px;"></div>
+    <%= hidden_field_tag :duration,'5', :id => 'duration_input' %>
+    <div style="width: 50px;display: inline-block;"><span id="duration_label" style="font-weight:bold;width: 50px">Trololo</span></div>
+    <%= submit_tag 'Submit', :class => 'btn btn-primary btn-large', :style => 'margin-bottom: 10px;' %>
+  <% end %>
+</div>
+
+<script type="text/javascript">
+  $("#select-activity").change(function () {
+    var name = $("#select-activity option:selected").text().replace(/ /g,"_");
+    var id = $("#select-activity option:selected").attr("value");
+	
+	if (objArray[id]!=undefined)
+	{
+		$("#slider").slider( "value" ,objArray[id]);
+		$("#duration").attr( "value" ,objArray[id]);
+	}
+    $("#image-container").empty();
+    $("#image-container").append('<img style="padding-bottom: 8px;" src="/images/activities/' + name + '.png"></img>');
+  }).trigger('change');
+</script>

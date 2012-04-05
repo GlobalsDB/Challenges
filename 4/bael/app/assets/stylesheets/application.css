@@ -1,0 +1,57 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the top of the
+ * compiled file, but it's generally better to create a new file per style scope.
+ *
+ *= require_self
+ *= require_tree .
+*/
+body {
+  background-image: url(/images/texture.jpg);
+  background-repeat: repeat-x;
+  background-position: 0 -230px;
+}
+
+.top-section h1 {
+  font-size: 42px;
+  font-weight: bold;
+  letter-spacing: -1px;
+  line-height: 1;
+}
+
+.top-section {
+  margin-bottom: 45px;
+}
+
+.achievement-container {
+  background: #EEE;
+  padding: 5px;
+  margin-top: 5px;
+  margin-right: 5px;
+  border: 1px solid #ffffff;
+  width: 69px;
+  height: 69px;
+  float: left;
+}
+
+.achievement-container img {
+  width: 68px;
+  height: 68px;
+}
+
+.achievement-container p {
+  display: none;
+}
+
+.activity-list li {
+  margin-bottom: 3px;
+}
+
+.ui-slider-handle {
+  background: #0074CC url(images/ui-bg_glass_75_e6e6e6_1x400.png) 50% 50% repeat-x;
+}

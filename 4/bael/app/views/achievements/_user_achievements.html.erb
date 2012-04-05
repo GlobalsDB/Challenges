@@ -1,0 +1,24 @@
+<% unless @user.nil? %>
+  <h2>Achievements</h2>
+  <div class="well" style="overflow: auto;">
+    <% if @user.achievements.empty? %>
+      <h4>You currently have no achievements.</h4>
+      <h4>Why don't you submit your activity?</h4>
+    <% else %>
+      <% @user.achievements.each do |a| %>
+        <div class='achievement-container' title="<%= a.name %>" rel="popover" data-content="<%= a.description %>" data-original-title="<%= a.name %>">
+          <img src="/images/achievements/<%= a.picture_url %>" alt="<%= a.description %>">
+          <p><%= a.name %></p>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>
+
+<script type="text/javascript">
+  $(function () {
+    $(".achievement-container").popover();
+  });
+
+</script>
+

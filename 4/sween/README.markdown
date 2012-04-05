@@ -15,3 +15,5 @@ Example here.
 Uses the mdcm library for DICOM Processing.
 
 ron.sweeney@gmail.com 
+
+GAR, INCOMPLETE

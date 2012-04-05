@@ -3,4 +3,6 @@ interface Listener {
     def notifyException(e)
 
     def notifyLeafNode(subscripts, data)
+
+    def notifyMaxNodeDepthReached(subscripts)
 }

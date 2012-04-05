@@ -7,6 +7,7 @@ class NodeNavigator {
     private def listener
 
     def ignoreLeafNode
+    def maxNodeDepth = -1
 
     NodeNavigator(global, listener) {
         if (global instanceof NodeReference)
@@ -39,13 +40,14 @@ class NodeNavigator {
 
     private def navigate(parentSubscripts = [].toArray()) {
         def currentSubscript = ''
-        def eof = false
-        while (!eof) {
-            currentSubscript = global.nextSubscript(path(parentSubscripts, currentSubscript))
+        def stop = false
+        while (!stop) {
+            currentSubscript = global.nextSubscript(PathUtils.path(parentSubscripts, currentSubscript))
+            def currentSubscriptPath = PathUtils.path(parentSubscripts, currentSubscript)
 
-            eof = currentSubscript.empty
-            if (!eof)
-                navigate(path(parentSubscripts, currentSubscript))
+            stop = currentSubscript.empty || currentSubscriptPath.length == maxNodeDepth
+            if (!stop)
+                navigate(currentSubscriptPath)
             else {
                 def data = global.getObject(parentSubscripts)
                 if (data) { // hit leaf node (only node with data) - end of recursion
@@ -53,15 +55,10 @@ class NodeNavigator {
                         parentSubscripts[0..parentSubscripts.length-2] : parentSubscripts
 
                     listener.notifyLeafNode(subscriptsToUse, data)
+                } else if (currentSubscriptPath.length == maxNodeDepth) {
+                    listener.notifyMaxNodeDepthReached(currentSubscriptPath)
                 }
             }
         }
-    }
-
-    private def path(parentSubscripts, currentSubscript) {
-        def pathSubscripts = []
-        pathSubscripts.addAll(parentSubscripts)
-        pathSubscripts.add(currentSubscript)
-        pathSubscripts.toArray()
     }
 }

@@ -160,6 +160,9 @@ class Reducer extends AbstractRunner {
         pathSubscripts.toArray()
     }
 
+    def notifyMaxNodeDepthReached(subscripts) {
+    }
+
     def notifyStatus(message) {
         listener.notifyStatus(message)
     }

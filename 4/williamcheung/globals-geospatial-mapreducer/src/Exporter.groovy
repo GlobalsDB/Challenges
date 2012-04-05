@@ -42,6 +42,9 @@ class Exporter {
         printWriter.println(line)
     }
 
+    def notifyMaxNodeDepthReached(subscripts) {
+    }
+
     def notifyStatus(message) {
         statusListener.notifyStatus(message)
     }

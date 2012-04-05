@@ -1,0 +1,15 @@
+<% activities = users_doing_the_same(activity_of_current_user) %>
+
+<h2><%= activities.size > 1 ? "#{activities.size} people are" : "1 person is" %> doing the same</h2>
+
+<ul class="unstyled activity-list">
+  
+
+  <% activities.each do |ra| %>
+  <li>
+    <img src="<%= ra[:user_picture] %>" alt="<%= ra[:user_name] %>" style="width:30px;height:30px" />
+    <span><%= link_to ra[:user_name], user_path(ra[:user_id]) %></span>
+    <%= render :partial => 'activities/activity_with_picture', :locals => {:activity_id => ra[:activity_id]} %>
+  </li>
+  <% end %>
+</ul>

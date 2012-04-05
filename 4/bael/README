@@ -1,0 +1,38 @@
+This project is called iDo. This social service allows users to submit their activity and motivating them through gaining achievements, bonus achievements and so on. Also you can see how many people are doing the same things with you simultaneously.
+
+Project scheme. 
+iDo is working on jRuby, using Java interface for Globals.db.
+It’s a MVC application built on Ruby on Rails framework.
+Use case.
+User sign in the iDo through Twitter, and submitting his current activity, after that he can see other people doing the same, and their recent activity.
+Also he can see self and others achievements.
+
+Data structure.
+UserData, Achievements, UserAchievemnts are stored in SQL db, for easier maintaining.
+
+Highload data is managed with GlobalsDB, which contains a last user activity, full user history, and some indices, also it contains a bonuses scheme, for assigning bonus achievement for user achievements set. In some moments GlobalsDB is used to store cached data from SQLTables
+
+Try It 
+http://93.88.167.141/
+
+How to install
+
+1) Install JRuby
+http://jruby.org/getting-started
+
+2) Execute in console following command:
+jruby -S gem install rails --pre --no-rdoc --no-ri
+jruby -S gem install jruby-openssl
+if you want to use SQLite for SQL db in app, execute this command
+jruby -S gem install activerecord-jdbcsqlite3-adapter --no-rdoc --no-ri
+else install SQL db that you want to use and install corresponding adapter
+
+3) download iDo sources
+git clone https://github.com/GlobalsDB/Challenges/tree/master/4/Bael/iDo
+4) cd iDo
+bundle install
+rake db:migrate
+rake db:seed
+rails server 
+5) try it
+http://localhost:3000

@@ -1,0 +1,5 @@
+<% activity = Activity.find(activity_id) %>
+<span class="activity-container">
+  <img src="/images/activities/<%= activity.picture_url %>" alt="<%= activity.name %>" />
+  <%= activity.name %>
+</span>

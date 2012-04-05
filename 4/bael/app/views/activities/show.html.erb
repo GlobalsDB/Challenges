@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @activity.name %>
+</p>
+
+<p>
+  <b>Duration:</b>
+  <%= @activity.duration %>
+</p>
+
+<p>
+  <b>Parent:</b>
+  <%= @activity.parent_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_activity_path(@activity) %> |
+<%= link_to 'Back', activities_path %>

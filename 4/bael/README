@@ -2,7 +2,7 @@ This project is called iDo. This social service allows users to submit their act
 
 Project scheme. 
 iDo is working on jRuby, using Java interface for Globals.db.
-It’s a MVC application built on Ruby on Rails framework.
+Itï¿½s a MVC application built on Ruby on Rails framework.
 Use case.
 User sign in the iDo through Twitter, and submitting his current activity, after that he can see other people doing the same, and their recent activity.
 Also he can see self and others achievements.
@@ -28,7 +28,7 @@ jruby -S gem install activerecord-jdbcsqlite3-adapter --no-rdoc --no-ri
 else install SQL db that you want to use and install corresponding adapter
 
 3) download iDo sources
-git clone https://github.com/GlobalsDB/Challenges/tree/master/4/Bael/iDo
+git clone https://github.com/GlobalsDB/Challenges/tree/master/4/bael/
 4) cd iDo
 bundle install
 rake db:migrate
